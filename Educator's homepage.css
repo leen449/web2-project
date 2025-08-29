@@ -1,0 +1,92 @@
+/* body{
+position:absolute;
+
+}  */
+
+.topHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topHeader h1 {
+  padding-top: 3%;
+}
+.topHeader a {
+  padding-top: 3%;
+  color: black;
+}
+.topHeader a:hover {
+  color: rgb(138, 138, 141);
+}
+
+.EduInfo {
+  display: grid;
+  grid-template-columns: 1fr auto; /* left side flexible, right side photo */
+  align-items: center; /* vertically center items */
+  border: 1px solid black;
+  padding: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.EduDetails {
+  font-size: 16px;
+}
+
+.EduImg {
+  height: 100px;
+  border: 0.3px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style the entire table */
+table {
+  margin-top: 50px;
+  width: 90%;
+  border-collapse: collapse;
+  border: 1px solid black;
+  margin-left: 50px;
+}
+caption {
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+/* Style table headers */
+th {
+  background-color: #bdb9ce;
+  padding: 10px;
+  text-align: left;
+  border: 1px solid black;
+}
+
+/* Style table data cells */
+td {
+  padding: 8px;
+  border: 1px solid black;
+}
+
+table a {
+  color: black;
+}
+
+table a:hover {
+  color: rgb(138, 138, 141);
+}
+
+/* Hover effect on rows */
+tr:hover {
+  background-color: #f0efef;
+}
+
+table ul li {
+  display: inline;
+  list-style-type: none;
+  padding: 0;
+}
