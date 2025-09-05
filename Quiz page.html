@@ -6,10 +6,10 @@
     <title>Quiz page</title>
     <link rel="stylesheet" href="Educator's homepage.css" />
   </head>
-  <body>
+  <body onload="document.body.style.opacity='1'">
       <table>
        <caption style="text-align: left;">
-    <span style="float: left; font-weight: bolder;">Quiz for [topic name]</span>
+    <span style="float: left; font-weight: bolder;color: #7341b1; font-size: 2rem;" >Quiz for Math</span>
     <a href="#" style="float: right; font-size: medium; font-weight: normal; margin-top: 30px;">
       Add New Question
     </a>
@@ -26,13 +26,22 @@
       <tbody>
         <tr>
           <td>
-            <img src="" alt="question picture" /> <br />
-            [Question] <br />
+            <img
+                style="
+                  height: 100px;
+                  object-fit: contain;
+                  margin-left: 80vh;
+                  box-shadow: 0px 3px 17px rgb(61, 61, 61);
+                "
+                src="images/math.png"
+                alt="question picture"
+              /> <br />
+            what is 4+4 <br />
             <ol>
-              <li>[1st answer]</li>
-              <li>[2nd answer]</li>
-              <li>[3rd answer]</li>
-              <li>[4th answer]</li>
+              <li>5</li>
+              <li>6</li>
+              <li>7</li>
+              <li style="background-color: lightgreen;">8</li>
             </ol>
           </td>
 
@@ -46,5 +55,98 @@
         </tr>
       </tbody>
     </table>
+
+      <table class="englishTable">
+       <caption style="text-align: left;">
+    <span style="float: left; font-weight: bolder;color: #7341b1; font-size: 2rem;" >Quiz for English</span>
+    <a href="#" style="float: right; font-size: medium; font-weight: normal; margin-top: 30px;">
+      Add New Question
+    </a>
+  </caption>
+      </caption>
+      <thead>
+        <tr>
+          <th>Question</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>
+            <img
+                style="
+                  height: 100px;
+                  object-fit: contain;
+                  margin-left: 80vh;
+                  box-shadow: 0px 3px 17px rgb(61, 61, 61);
+                "
+                src="images/english1.png"
+                alt="question picture"
+              /> <br />
+            Ahmed , took _ _ _ _ _ _ _ folder and put it over there. <br />
+            <ol>
+              <li style="background-color: lightgreen;">this</li>
+              <li>that</li>
+              <li>those</li>
+              <li>these</li>
+            </ol>
+          </td>
+
+          <td><a href="#">edit</a></td>
+          <td><a href="#">delete</a></td>
+        </tr>
+        <tr>
+          <td><img
+                style="
+                  height: 100px;
+                  object-fit: contain;
+                  margin-left: 80vh;
+                  box-shadow: 0px 3px 17px rgb(61, 61, 61);
+                "
+                src="images/english2.png"
+                alt="question picture"
+              /> <br />
+              Andi is 165 cm tall. Donna is 167 cm tall. So, Donna is _________ than Andi.            <ol>
+              <li style="background-color: lightgreen;">taller</li>
+              <li>shorter</li>
+              <li>the same height</li>
+              <li>none of the above</li>
+            </ol>
+          </td>
+          <td><a href="#">edit</a></td>
+          <td><a href="#">delete</a></td>
+        </tr>
+        <tr>
+          <td>
+            <img
+                style="
+                  height: 100px;
+                  object-fit: contain;
+                  margin-left: 80vh;
+                  box-shadow: 0px 3px 17px rgb(61, 61, 61);
+                "
+                src="images/english3.png"
+                alt="question picture"
+              /> <br />
+            Ali is so thin. He wishes _ _ _ _ _ _ _ _  _ more muscles. <br />
+            <ol>
+              <li>he were</li>
+              <li>he have</li>
+              <li style="background-color: lightgreen;">he had</li>
+              <li>to had</li>
+            </ol>
+          </td>
+
+          <td><a href="#">edit</a></td>
+          <td><a href="#">delete</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+
   </body>
 </html>

@@ -6,11 +6,13 @@
     <title>Educator's Homepage</title>
     <link rel="stylesheet" href="Educator's homepage.css" />
   </head>
-  <body>
+  <body onload="start()">
     <header>
       <section>
         <div class="topHeader">
-          <h1>welcome [name]</h1>
+          <span class="welcome" style="color: #7341b1"
+            >welcome <span style="color: #151f5c">mohammed Ali</span></span
+          >
           <a href="#">log-out</a>
         </div>
       </section>
@@ -23,7 +25,11 @@
             <p>email: mohammed12@gmail.com</p>
           </div>
           <div class="EduImg">
-            <img src="" alt="profile picture" />
+            <img
+              style="border: 0.3px; height: 100px; object-fit: contain"
+              src="images/edu.png"
+              alt="profile picture"
+            />
           </div>
         </div>
       </section>
@@ -46,7 +52,7 @@
         <tbody>
           <tr>
             <td><a href="Quiz page.html">Math</a></td>
-            <td>10</td>
+            <td>1</td>
             <td>
               Number Of Quiz Takers:30 <br />
               Average Score:80%
@@ -57,15 +63,15 @@
             </td>
           </tr>
           <tr>
-            <td><a href="Quiz page.html">...</a></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><a href="Quiz page.html"> English</a></td>
+            <td>3</td>
+            <td>quiz not taken yet</td>
+            <td>no Feedback yet</td>
           </tr>
         </tbody>
       </table>
 
-      <table>
+      <table class="recommendation-table">
         <caption>
           Question Recommendations
         </caption>
@@ -80,31 +86,85 @@
 
         <tbody>
           <tr>
-            <td>Web Development</td>
+            <td>Math</td>
+
             <td>
-              [name] <br />
-              <img src="" alt="learner picture" />
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 15px;
+                  justify-content: center;
+                "
+              >
+                <span>salem omar</span>
+                <img
+                  style="
+                    border-radius: 50%;
+                    height: 40px;
+                    width: 40px;
+                    object-fit: cover;
+                  "
+                  src="images/learner.png"
+                  alt="learner picture"
+                />
+              </div>
             </td>
+
             <td>
-              <img src="" alt="question picture" /> <br />
-              [Question] <br />
-              <ol>
-                <li>[1st answer]</li>
-                <li>[2nd answer]</li>
-                <li>[3rd answer]</li>
-                <li>[4th answer]</li>
+              <img
+                style="
+                  height: 100px;
+                  object-fit: contain;
+                  margin-left: 20svh;
+                  box-shadow: 0px 3px 17px rgb(61, 61, 61);
+                "
+                src="images/math.png"
+                alt="question picture"
+              />
+              <br />
+              what is 6^2? <br />
+              <ol style="list-style: circle;">
+                <li>3</li>
+                <li>12</li>
+                <li style="background-color: lightgreen;">36</li>
+                <li>1</li>
               </ol>
             </td>
+
             <td>
-              <label>comment: </label> <textarea name="" rows="2"></textarea>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  justify-content: center;
+                "
+              >
+                <label class="comment-label">comment: </label>
+                <textarea class="comment-textarea" name="" rows="2"></textarea>
+              </div>
               <br />
-              <ul>
+              <ul
+                style="
+                  list-style-type: none;
+                  padding: 0;
+                  display: flex;
+                  gap: 10px;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
                 <li>Approve:</li>
-                <li><input type="radio" value="yes" />yes</li>
-                <li><input type="radio" value="no" />no</li>
+                <li>
+                  <label><input type="radio" value="yes" /> Yes</label>
+                </li>
+                <li>
+                  <label><input type="radio" value="no" /> No</label>
+                </li>
               </ul>
               <br />
-              <button style="margin-left: 110px">Submit</button>
+              <button style="margin-left: 230px">Submit</button>
             </td>
           </tr>
           <tr>
@@ -116,5 +176,40 @@
         </tbody>
       </table>
     </main>
+    <script>
+      // Remove the cursor after animation ends
+      const el = document.querySelector(".welcome");
+      const textLength = el.textContent.length;
+
+      // Create dynamic CSS keyframes
+      const style = document.createElement("style");
+      style.innerHTML = `
+    @keyframes typing {
+      from { width: 0;
+      opacity:0; }
+      to { width: ${textLength}ch;
+      opacity:1;  }
+    }
+
+    @keyframes blinkCursor {
+      50% { border-color: transparent; }
+    }
+
+    .welcome {
+   
+      animation: typing 2s steps(${textLength}) 1s 1 forwards, blinkCursor 0.75s step-end infinite;
+    }
+  `;
+      document.head.appendChild(style);
+
+      // Remove cursor after animation ends
+      el.addEventListener("animationend", () => {
+        el.style.borderRight = "none";
+      });
+
+      function start() {
+        document.body.style.opacity = "1";
+      }
+    </script>
   </body>
 </html>
