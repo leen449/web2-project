@@ -5,35 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Educator's Homepage</title>
     <link rel="stylesheet" href="Educator's homepage.css" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body onload="start()">
     <header>
-      <section>
-        <div class="topHeader">
-          <span class="welcome" style="color: #7341b1"
-            >welcome <span style="color: #151f5c">mohammed Ali</span></span
-          >
-          <a href="#">log-out</a>
-        </div>
-      </section>
-
-      <section>
-        <div class="EduInfo">
-          <div class="EduDetails">
-            <p>name: mohammed Ali</p>
-
-            <p>email: mohammed12@gmail.com</p>
-          </div>
-          <div class="EduImg">
-            <img
-              style="border: 0.3px; height: 100px; object-fit: contain"
-              src="images/edu.png"
-              alt="profile picture"
-            />
-          </div>
-        </div>
-      </section>
+      <nav>
+        <ul>
+          <li><img src="images/mindly.png" alt="Mindly Logo" /></li>
+        </ul>
+      </nav>
     </header>
+
+    <section>
+      <div class="topHeader">
+        <span class="welcome" style="color: #a654e6"
+          >welcome <span style="color: #5945ec">mohammed Ali</span></span
+        >
+      </div>
+      <a href="#">log-out</a>
+    </section>
+
+    <section>
+      <div class="EduInfo">
+        <div class="EduDetails">
+          <p>name: mohammed Ali</p>
+
+          <p>email: mohammed12@gmail.com</p>
+        </div>
+        <div class="EduImg">
+          <img
+            style="border: 0.3px; height: 100px; object-fit: contain"
+            src="images/edu.png"
+            alt="profile picture"
+          />
+        </div>
+      </div>
+    </section>
 
     <main>
       <table>
@@ -124,10 +131,10 @@
               />
               <br />
               what is 6^2? <br />
-              <ol style="list-style: circle;">
+              <ol style="list-style: circle">
                 <li>3</li>
                 <li>12</li>
-                <li style="background-color: lightgreen;">36</li>
+                <li style="background-color: lightgreen">36</li>
                 <li>1</li>
               </ol>
             </td>
@@ -164,7 +171,7 @@
                 </li>
               </ul>
               <br />
-              <button style="margin-left: 230px">Submit</button>
+              <button style="margin-left: 300px">Submit</button>
             </td>
           </tr>
           <tr>
@@ -176,6 +183,12 @@
         </tbody>
       </table>
     </main>
+    <br />
+    <div class="footer-container">
+      <footer>
+        <p>&copy; 2025 Mindly. All rights reserved.</p>
+      </footer>
+    </div>
     <script>
       // Remove the cursor after animation ends
       const el = document.querySelector(".welcome");
