@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="style.css" />
-
   <title>Add New Question</title>
   <style>
    body {
@@ -117,7 +115,7 @@ footer p {
       </header>
   <div class="container">
     <h2>Add New Question</h2>
-    <form id="questionForm">
+    <form id="questionForm" action="Quiz page.html" onsubmit="alert('Question added successfully!')">
       <div class="form-group">
         <label>Question:</label>
         <textarea id="questionText" rows="4" required></textarea>
@@ -160,35 +158,5 @@ footer p {
     </footer>
   </div>
 
-  <script>
-    document.getElementById("questionForm").addEventListener("submit", function(e){
-      e.preventDefault();
-
-      // Get form data
-      const question = document.getElementById("questionText").value.trim();
-      const answerA = document.getElementById("answerA").value.trim();
-      const answerB = document.getElementById("answerB").value.trim();
-      const answerC = document.getElementById("answerC").value.trim();
-      const answerD = document.getElementById("answerD").value.trim();
-      const correct = document.getElementById("correctAnswer").value;
-
-      if(!question || !answerA || !answerB || !answerC || !answerD){
-        alert("Please fill in all fields!");
-        return;
-      }
-
-      // Here you can send data to backend with fetch/AJAX
-      console.log({
-        question,
-        answers: {A: answerA, B: answerB, C: answerC, D: answerD},
-        correct
-      });
-
-      alert("Question added successfully!");
-
-      // Redirect back to quiz page (replace quiz.html with your quiz page)
-      window.location.href = "quiz.html";
-    });
-  </script>
 </body>
 </html>

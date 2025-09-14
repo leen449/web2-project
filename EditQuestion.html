@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Question</title>
+  <style>
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header { box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.1); }
+    nav {
+      background-image: linear-gradient(to right, #7341b1, #ee7979);
+      clip-path: ellipse(100% 100% at 50% 0%);
+      overflow: hidden;
+      width: 100%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 10px 0;
+    }
+    nav ul { margin: 0; padding: 0 20px; display: flex; align-items: center; }
+    nav li { list-style-type: none; }
+    nav img { height: 50px; width: auto; }
+
+    .container {
+      background: #fff;
+      padding: 20px 30px;
+      border: 2px solid #000;
+      border-radius: 8px;
+      width: 450px;
+      margin: 40px auto;
+      flex-grow: 1;
+    }
+
+    h2 { text-align: center; margin-bottom: 15px; }
+    label { display: block; margin-top: 12px; font-weight: bold; }
+    textarea, input[type="text"], select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .file-section { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+    .file-section img { max-width: 120px; max-height: 100px; border: 1px solid #ccc; margin-left: 10px; }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      background: #007bff;
+      color: #fff;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover { background: #0056b3; }
+
+    footer {
+      background-image: linear-gradient(to right, #7341b1, #ee7979);
+      clip-path: ellipse(100% 100% at 50% 100%);
+      overflow: visible;
+      width: 100%;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      padding: 20px 0;
+      text-align: center;
+    }
+    footer p { margin: 0; font-size: 16px; color: #0f1214; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <ul>
+        <li><img src="images/mindly.png" alt="Mindly Logo" /></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h2>Edit Question</h2>
+    <form id="editQuestionForm">
+      <label for="questionText">Question:</label>
+      <textarea id="questionText" rows="3"></textarea>
+
+      <label for="questionImage">Upload Question Figure:</label>
+      <div class="file-section">
+        <input type="file" id="questionImage" accept="image/*">
+        <div>
+          <small>Current Figure:</small><br>
+          <img id="currentImage" src="" alt="No image selected">
+        </div>
+      </div>
+
+      <label for="answerA">Answer A:</label>
+      <input type="text" id="answerA">
+
+      <label for="answerB">Answer B:</label>
+      <input type="text" id="answerB">
+
+      <label for="answerC">Answer C:</label>
+      <input type="text" id="answerC">
+
+      <label for="answerD">Answer D:</label>
+      <input type="text" id="answerD">
+
+      <label for="correctAnswer">Correct Answer:</label>
+      <select id="correctAnswer">
+        <option value="" disabled selected>-- Select Correct Answer --</option>
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+      </select>
+
+      <button type="button" onclick="saveAndRedirect()">Save</button>
+    </form>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Mindly. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function saveAndRedirect() {
+      alert("Changes saved successfully!");
+      window.location.href = 'quiz%20page.html';
+    }
+  </script>
+
+</body>
+</html>
