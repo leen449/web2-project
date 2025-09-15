@@ -1,7 +1,7 @@
 html {
   scroll-behavior: smooth;
 }
-
+body{font-family: Arial, sans-serif;}
 header {
   box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.1);
 }
