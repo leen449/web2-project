@@ -11,7 +11,7 @@
     <header>
       <nav>
         <ul>
-          <li><img src="images/mindly.png" alt="Mindly Logo" /></li>
+          <li><a href="index.html"><img src="images/mindly.png" alt="Mindly Logo" /></a></li>
         </ul>
       </nav>
     </header>
@@ -222,6 +222,10 @@
 
       function start() {
         document.body.style.opacity = "1";
+        setTimeout(() => {
+        document.body.style.backgroundImage = "url('images/dalmatian-spots.png')";
+        }, 440); // Adjust time to match animation duration
+      
       }
     </script>
   </body>

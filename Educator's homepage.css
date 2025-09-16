@@ -178,3 +178,32 @@ button:hover {
   background-image: linear-gradient(to right, #314e7c, #7341b1);
   transform: translateY(-2px);
 }
+@media (max-width: 768px) {
+  .topHeader {
+    padding: 15px;
+  }
+
+  .EduInfo {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    text-align: center;
+  }
+
+  table {
+    width: 95%;
+    margin-left: 2.5%;
+    font-size: 14px;
+  }
+
+  th,
+  td {
+    padding: 6px;
+  }
+
+  .welcome {
+    font-size: 24px;
+  }
+  .recommendation-table {
+        padding: 0 15px;
+    }
+}
