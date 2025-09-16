@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In</title>
+  <style>
+    
+html {
+    scroll-behavior: smooth; }
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f0f2f5;
+  min-height: 100vh; 
+  display: flex;
+  flex-direction: column; }
+
+
+
+header {
+    box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.1); }
+
+nav {
+background-image: linear-gradient(to right, #7341b1, #ee7979);
+clip-path: ellipse(100% 100% at 50% 0%);
+overflow: hidden;
+width: 100%;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+
+
+nav li {
+list-style-type: none;
+float: left; }
+
+nav img {
+height: 50%;
+width: 40%;
+}
+
+main {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px; 
+}
+
+
+
+footer {
+  background-image: linear-gradient(to right, #7341b1, #ee7979);
+  clip-path: none; 
+  width: 100%;
+  padding: 20px 0;
+  text-align: center;
+  margin-top: auto; 
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+footer p {
+  margin: 0;
+  font-size: 14px; 
+  color: #fff; 
+}
+
+main {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px; 
+  margin: 60px auto; max-width: 400px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.2)
+}
+h2 { text-align: center; }
+label { display: block; margin-top: 10px; }
+input, select {
+ width: 100%;
+ padding: 8px; 
+ margin-top: 4px; 
+ border: 1px solid #ccc; 
+ border-radius: 6px; }
+button {
+display: inline-block;
+margin: 20px 0;
+padding: 16px 30px;
+background: #a654e6;
+color: white;
+border-radius: 8px;
+text-decoration: none;
+width: 220px;
+text-align: center;
+font-size: 1.1rem;
+font-weight: bold;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+button:hover {
+background: #8b3dc4;
+}
+  </style>
+</head>
+<body>
+    <header>
+        <nav>
+          <ul>
+            <li><img src="images/mindly.png" alt="Mindly Logo" /></li>
+          </ul>
+        </nav>
+      </header> 
+      <main>
+  
+    <h2>Log In</h2>
+    <form onsubmit="event.preventDefault(); loginUser();">
+      <label>Email</label><input type="email" id="email" required>
+      <label>Password</label><input type="password" id="password" required>
+      <label for="role">Sign in as</label>
+      <select id="role" required>
+        <option value=""> Role </option>
+        <option value="learner">Learner</option>
+        <option value="educator">Educator</option>
+      </select>
+      <button type="submit">Log In</button>
+    </form>
+
+  </main>
+  <div class="footer-container">
+    <footer>
+      <p>&copy; 2025 Mindly. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    function loginUser() {
+      const role = document.getElementById("role").value;
+      if (role === "learner") {
+        window.location.href = "Learner’s homepage.html";
+      } else if (role === "educator") {
+        window.location.href = "Educators homepage.html";
+      }
+    }
+  </script>
+</body>
+</html>

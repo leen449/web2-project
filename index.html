@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homepage</title>
+  <style>
+  body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f0f2f5;
+  min-height: 100vh; 
+  display: flex;
+  flex-direction: column;
+}
+
+html {
+scroll-behavior: smooth;
+}
+
+header {
+box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+background-image: linear-gradient(to right, #7341b1, #ee7979);
+clip-path: ellipse(100% 100% at 50% 0%);
+overflow: hidden;
+width: 100%;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+
+nav li {
+list-style-type: none;
+float: left;
+}
+
+nav img {
+height: 50%;
+width: 40%;
+}
+
+main {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px; 
+}
+
+
+
+footer {
+  background-image: linear-gradient(to right, #7341b1, #ee7979);
+  clip-path: none; 
+  width: 100%;
+  padding: 20px 0;
+  text-align: center;
+  margin-top: auto; 
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+footer p {
+  margin: 0;
+  font-size: 14px; 
+  color: #fff; 
+}
+
+h1 {
+font-family: 'Poppins', sans-serif;
+font-size: 3rem;
+margin: 20px 10px 20px 0;
+letter-spacing: 2px;
+color: #333;
+}
+
+
+
+.tagline {
+font-family: 'Roboto', sans-serif;
+font-size: 1.1rem;
+color: #777;
+margin: 0 0 40px 0;
+font-style: italic;
+}
+
+
+
+#button {
+display: inline-block;
+margin: 20px 0;
+padding: 16px 30px;
+background: #a654e6;
+color: white;
+border-radius: 8px;
+width: 220px;
+text-align: center;
+font-size: 1.1rem;
+font-weight: bold;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+}
+
+
+
+#button:hover {
+background: #8b3dc4;
+}
+
+  </style>
+</head>
+<body>
+    <header>
+        <nav>
+          <ul>
+            <li><img src=images/mindly.png alt="Mindly Logo" /></li>
+          </ul>
+        </nav>
+      </header>           
+  <main>
+    <h1> Mindly </h1>
+    <p class="tagline"> Where learning meets fun </p>
+    <a id="button" href="login.html">Log In</a>
+    <p> New User? <a href="signup.html"> Sign Up Now! </a> </p>
+  </main>
+
+    <div class="footer-container">
+      <footer>
+        <p>&copy; 2025 Mindly. All rights reserved.</p>
+      </footer>
+    </div>
+</body>
+</html>
