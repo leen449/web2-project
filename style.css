@@ -38,3 +38,6 @@ footer p {
   font-size: 16px;
   color: #0f1214;
 }
+button:hover {
+  background: #7b34b4;
+}

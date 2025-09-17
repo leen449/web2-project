@@ -421,4 +421,7 @@ footer p {
     .educator-container {
         padding: 0 15px;
     }
+    button:hover {
+      background: #7b34b4;
+    }
 }
