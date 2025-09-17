@@ -39,21 +39,32 @@
       margin: 5px 0;
       cursor: pointer;
     }
+
     .done-btn {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      background: #a654e6;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      font-size: 18px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .done-btn:hover {
-      background: #7b34b4;
-    }
+  display: inline-block;
+  padding: 12px 25px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none; /* works for <a> and <button> */
+  color: #fff;
+  background-image: linear-gradient(to right, #7341b1, #ee7979); /* purple → pink */
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effect */
+.done-btn:hover  {
+  background-image: linear-gradient(to right, #8a3ccf, #ff7b90); /* brighter gradient */
+  transform: scale(1.05); /* slight zoom */
+}
+
+/* Optional: for accessibility (keyboard focus) */
+.done-btn:focus {
+  outline: 2px solid #7341b1;
+  outline-offset: 3px;
+}
   </style>
 </head>
 <body>

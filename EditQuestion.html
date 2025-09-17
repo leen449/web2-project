@@ -36,19 +36,31 @@
     .file-section { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
     .file-section img { max-width: 120px; max-height: 100px; border: 1px solid #ccc; margin-left: 10px; }
 
-    button {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      margin-top: 20px;
-      background: #a654e6;
-      color: #fff;
-      font-size: 16px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    button:hover { background: #7b34b4 }
+    .button {
+  display: inline-block;
+  padding: 12px 25px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none; /* works for <a> and <button> */
+  color: #fff;
+  background-image: linear-gradient(to right, #7341b1, #ee7979); /* purple → pink */
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effect */
+.button:hover {
+  background-image: linear-gradient(to right, #8a3ccf, #ff7b90); /* brighter gradient */
+  transform: scale(1.05); /* slight zoom */
+}
+
+/* Optional: for accessibility (keyboard focus) */
+.button:focus {
+  outline: 2px solid #7341b1;
+  outline-offset: 3px;
+}
 
     footer {
       background-image: linear-gradient(to right, #7341b1, #ee7979);

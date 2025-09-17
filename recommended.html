@@ -237,34 +237,30 @@
     }
 
     .btn {
+  display: inline-block;
+  padding: 12px 25px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none; /* works for <a> and <button> */
+  color: #fff;
+  background-image: linear-gradient(to right, #7341b1, #ee7979); /* purple → pink */
+  transition: background 0.3s ease, transform 0.3s ease;
+}
 
-      padding: 10px 20px;
+/* Hover effect */
+.btn:hover {
+  background-image: linear-gradient(to right, #8a3ccf, #ff7b90); /* brighter gradient */
+  transform: scale(1.05); /* slight zoom */
+}
 
-      font-size: 16px;
-
-      font-weight: bold;
-
-      border-radius: 6px;
-
-      border: none;
-
-      cursor: pointer;
-
-      color: white;
-
-      background: linear-gradient(to right, #7341b1, #ee7979);
-
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-    }
-
-    .btn:hover {
-
-      transform: translateY(-2px);
-
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-
-    }
+/* Optional: for accessibility (keyboard focus) */
+.btn:focus {
+  outline: 2px solid #7341b1;
+  outline-offset: 3px;
+}
 
  
 
