@@ -184,7 +184,9 @@
         </table>
         
         <div style="text-align: center; margin: 30px 0;">
-            <button class="recommend-btn">Recommend a Question</button>
+            <form action="recommended.html"> 
+            <button class="recommend-btn" type="submit">Recommend a Question</button>
+            </form>
         </div>
     </main>
     
@@ -235,13 +237,8 @@
             });
         });
         
-        // Handle recommend button
-        const recommendBtn = document.querySelector('.recommend-btn');
-        if (recommendBtn) {
-            recommendBtn.addEventListener('click', function() {
-                alert('Recommend a Question feature coming soon!');
-            });
-        }
+        
+            
         
         // Handle filter button
         const filterBtn = document.querySelector('.filter-btn');
