@@ -12,6 +12,8 @@ body {
   min-height: 100vh; 
   display: flex;
   flex-direction: column;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
 }
 header {
 box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.1);
@@ -57,6 +59,7 @@ label { display: block; margin-top: 10px; }
 input { width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #ccc; border-radius: 6px; }
 .topics label { display: block; margin: 4px 0; }
 button {
+  margin-top: 25px;
   display: inline-block;
   padding: 12px 25px;
   border-radius: 8px;
@@ -85,7 +88,7 @@ button:focus {
 form { display: none; }
   </style>
 </head>
-<body>
+<body onload="document.body.style.opacity='1'">
   <header>
     <nav>
       <ul>

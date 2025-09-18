@@ -149,7 +149,7 @@
                 "
               >
                 <label class="comment-label">comment: </label>
-                <textarea class="comment-textarea" name="" rows="2"></textarea>
+                <textarea class="comment-textarea" name="" rows="2" ></textarea>
               </div>
               <br />
               <ul
@@ -164,14 +164,14 @@
               >
                 <li>Approve:</li>
                 <li>
-                  <label><input type="radio" value="yes" /> Yes</label>
+                  <label><input name="approve" type="radio" value="yes" /> Yes</label>
                 </li>
                 <li>
-                  <label><input type="radio" value="no" /> No</label>
+                  <label><input name="approve" type="radio" value="no" /> No</label>
                 </li>
               </ul>
               <br />
-              <button style="margin-left: 300px">Submit</button>
+              <button style="margin-left: 300px" onclick="submitComment()">Submit</button>
             </td>
           </tr>
           <tr>
@@ -222,11 +222,34 @@
 
       function start() {
         document.body.style.opacity = "1";
-        setTimeout(() => {
-        document.body.style.backgroundImage = "url('images/dalmatian-spots.png')";
-        }, 440); // Adjust time to match animation duration
-      
+
+        
       }
+      function submitComment() {
+        // Get textarea and radio button values
+        const comment = document.querySelector(".comment-textarea").value;
+        const approveYes = document.querySelector("input[name='approve'][value='yes']").checked;
+        const approveNo = document.querySelector("input[name='approve'][value='no']").checked;
+
+        // Validation checks
+        if (comment.trim() === "") {
+          alert("Please enter a comment.");
+          return; // Stop submission
+        }
+        if (!approveYes && !approveNo) {
+          alert("Please select Yes or No to approve.");
+          return; // Stop submission
+        }
+
+        // If all required fields are valid, submit the comment
+        alert("Your review has been submitted. Thank you!");
+        // Reset fields (optional)
+        document.querySelector(".comment-textarea").value = "";
+        document.querySelector("input[name='approve'][value='yes']").checked = false;
+        document.querySelector("input[name='approve'][value='no']").checked = false;
+        window.location.reload(); // Refresh the page to show updated recommendations
+      }
+
     </script>
   </body>
 </html>

@@ -15,7 +15,9 @@ body {
   background: #f0f2f5;
   min-height: 100vh; 
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+opacity: 0;
+  transition: opacity 1s ease-in-out; }
 
 
 
@@ -116,7 +118,7 @@ button:focus {
 }
   </style>
 </head>
-<body>
+<body onload="document.body.style.opacity='1'">
     <header>
         <nav>
           <ul>

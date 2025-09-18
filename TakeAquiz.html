@@ -9,6 +9,8 @@
     body {
       font-family: Arial, sans-serif;
       margin: 0;
+      opacity: 0;
+  transition: opacity 1s ease-in-out;
     }
     .quiz-container {
       max-width: 800px;
@@ -68,7 +70,7 @@
 }
   </style>
 </head>
-<body>
+<body onload="document.body.style.opacity='1'">
 
   <!-- Header -->
   <header>
@@ -158,11 +160,7 @@
     </footer>
   </div>
 
-  <script>
-    setTimeout(() => {
-      document.body.style.backgroundImage = "url('images/dalmatian-spots.png')";
-    }, 440);
-  </script>
+  
 
 </body>
 </html>

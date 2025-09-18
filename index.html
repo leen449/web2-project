@@ -12,6 +12,8 @@
   min-height: 100vh; 
   display: flex;
   flex-direction: column;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
 }
 
 html {
@@ -118,7 +120,7 @@ font-style: italic;
 
   </style>
 </head>
-<body>
+<body onload="document.body.style.opacity='1'">
     <header>
         <nav>
           <ul>

@@ -26,6 +26,8 @@ section a {
   justify-content: flex-end;
   align-items: flex-end;
   padding: 20px;
+  color: black;
+  text-decoration: none;
 }
 section a:hover {
   color: rgb(138, 138, 141);
@@ -148,6 +150,7 @@ table ul li {
   border-radius: 6px;
   outline: none;
   transition: border-color 0.3s;
+  
 }
 
 /* highlight border on focus */
@@ -165,19 +168,24 @@ div:focus-within .comment-label {
 }
 
 button {
-  padding: 5px 10px;
-  font-size: 16px;
-  background-image: linear-gradient(to right, #a654e6, #5945ec);
-  color: white;
+  display: inline-block;
+  padding: 12px 25px;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
-  border-radius: 24px;
-  transition: all 0.3s ease;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none; /* works for <a> and <button> */
+  color: #fff;
+  background-image: linear-gradient(to right, #7341b1, #ee7979); /* purple → pink */
+  transition:  0.3s ease, transform 0.3s ease;
 }
 button:hover {
-  background-image: linear-gradient(to right, #314e7c, #7341b1);
-  transform: translateY(-2px);
+ background-image: linear-gradient(to right, #8a3ccf, #ff7b90); /* brighter gradient */
+  transform: scale(1.05); /* slight zoom */
 }
+
+
 @media (max-width: 768px) {
   .topHeader {
     padding: 15px;

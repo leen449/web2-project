@@ -440,13 +440,13 @@ footer p {
 }
 
 /* Hover effect */
-.button:hover {
+.button:hover  , .filter-btn:hover{
   background-image: linear-gradient(to right, #8a3ccf, #ff7b90); /* brighter gradient */
   transform: scale(1.05); /* slight zoom */
 }
 
 /* Optional: for accessibility (keyboard focus) */
-.button:focus {
+.button:focus , .filter-btn:focus {
   outline: 2px solid #7341b1;
   outline-offset: 3px;
 }
