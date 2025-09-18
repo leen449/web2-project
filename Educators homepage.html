@@ -22,7 +22,10 @@
           >Welcome <span style="color: #5945ec">Mohammed Ali</span></span
         >
       </div>
-      <a href="index.html">log-out</a>
+
+      <div style="display: flex; justify-content: flex-end;">
+        <a href="index.html">log-out</a>
+    </div>
     </section>
 
     <section>
@@ -190,42 +193,53 @@
       </footer>
     </div>
     <script>
-      // Remove the cursor after animation ends
-      const el = document.querySelector(".welcome");
-      const textLength = el.textContent.length;
-
-      // Create dynamic CSS keyframes
-      const style = document.createElement("style");
-      style.innerHTML = `
-    @keyframes typing {
-      from { width: 0;
-      opacity:0; }
-      to { width: ${textLength}ch;
-      opacity:1;  }
-    }
-
-    @keyframes blinkCursor {
-      50% { border-color: transparent; }
-    }
-
-    .welcome {
-   
-      animation: typing 2s steps(${textLength}) 1s 1 forwards, blinkCursor 0.75s step-end infinite;
-    }
-  `;
-      document.head.appendChild(style);
-
-      // Remove cursor after animation ends
-      el.addEventListener("animationend", () => {
-        el.style.borderRight = "none";
-      });
-
-      function start() {
+    // Remove the cursor after animation ends
+    function start() {
         document.body.style.opacity = "1";
-
         
-      }
-      function submitComment() {
+        // Typing animation with cursor
+        const el = document.querySelector(".welcome");
+        const text = "Welcome Mohammed Ali";
+        const textLength = text.length;
+        
+        // Clear existing content and set initial state
+        el.textContent = "";
+        el.style.borderRight = "1px solid #000";
+        el.style.width = "0";
+        
+        // Create dynamic CSS keyframes
+        const style = document.createElement("style");
+        style.innerHTML = `
+            @keyframes typing {
+                from { width: 0; }
+                to { width: ${textLength}ch; }
+            }
+            
+            @keyframes blinkCursor {
+                50% { border-color: transparent; }
+            }
+            
+            .welcome {
+                animation: typing 2s steps(${textLength}) 1s 1 forwards, 
+                           blinkCursor 0.75s step-end infinite;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Set the text content after a delay to match animation
+        setTimeout(() => {
+            el.textContent = text;
+        }, 1000);
+        
+        // Remove cursor after animation ends
+        el.addEventListener("animationend", () => {
+            el.style.borderRight = "none";
+        });
+    }
+    
+    function submitComment() {
         // Get textarea and radio button values
         const comment = document.querySelector(".comment-textarea").value;
         const approveYes = document.querySelector("input[name='approve'][value='yes']").checked;
@@ -233,12 +247,12 @@
 
         // Validation checks
         if (comment.trim() === "") {
-          alert("Please enter a comment.");
-          return; // Stop submission
+            alert("Please enter a comment.");
+            return; // Stop submission
         }
         if (!approveYes && !approveNo) {
-          alert("Please select Yes or No to approve.");
-          return; // Stop submission
+            alert("Please select Yes or No to approve.");
+            return; // Stop submission
         }
 
         // If all required fields are valid, submit the comment
@@ -248,8 +262,7 @@
         document.querySelector("input[name='approve'][value='yes']").checked = false;
         document.querySelector("input[name='approve'][value='no']").checked = false;
         window.location.reload(); // Refresh the page to show updated recommendations
-      }
-
-    </script>
+    }
+</script>
   </body>
 </html>

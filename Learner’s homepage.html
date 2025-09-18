@@ -23,7 +23,9 @@
                 Welcome <span style="color: #5945ec">Sarah Khalid</span>
             </span>
         </div>
-        <a href="index.html">log-out</a>
+        <div style="display: flex; justify-content: flex-end;">
+            <a href="index.html">log-out</a>
+        </div>
     </section>
 
     <section>
@@ -204,55 +206,66 @@
     </div>
     
     <script>
-        // Remove the cursor after animation ends
+    function start() {
+        document.body.style.opacity = "1";
+        
+        // Typing animation with cursor
         const el = document.querySelector(".welcome");
-        const textLength = el.textContent.length;
-
+        const text = "Welcome Sarah Khalid";
+        const textLength = text.length;
+        
+        // Clear existing content and set initial state
+        el.textContent = "";
+        el.style.borderRight = "1px solid #000";
+        el.style.width = "0";
+        
         // Create dynamic CSS keyframes
         const style = document.createElement("style");
         style.innerHTML = `
             @keyframes typing {
-                from { width: 0; opacity:0; }
-                to { width: ${textLength}ch; opacity:1; }
+                from { width: 0; }
+                to { width: ${textLength}ch; }
             }
-
+            
             @keyframes blinkCursor {
                 50% { border-color: transparent; }
             }
-
+            
             .welcome {
-                animation: typing 2s steps(${textLength}) 1s 1 forwards, blinkCursor 0.75s step-end infinite;
+                animation: typing 2s steps(${textLength}) 1s 1 forwards, 
+                           blinkCursor 0.75s step-end infinite;
+                white-space: nowrap;
+                overflow: hidden;
             }
         `;
         document.head.appendChild(style);
-
+        
+        // Set the text content after a delay to match animation
+        setTimeout(() => {
+            el.textContent = text;
+        }, 1000);
+        
         // Remove cursor after animation ends
         el.addEventListener("animationend", () => {
             el.style.borderRight = "none";
         });
-
-        function start() {
-            document.body.style.opacity = "1";
-        }
-        
-        // Handle take quiz buttons
-        const takeQuizBtns = document.querySelectorAll('.take-quiz-btn');
-        takeQuizBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                window.location.href = 'TakeAquiz.html';
-            });
+    }
+    
+    // Handle take quiz buttons
+    const takeQuizBtns = document.querySelectorAll('.take-quiz-btn');
+    takeQuizBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            window.location.href = 'TakeAquiz.html';
         });
-        
-        
-            
-        
-        // Handle filter button
-        const filterBtn = document.querySelector('.filter-btn');
-        if (filterBtn) {
-            filterBtn.addEventListener('click', function() {
-                alert('Filter functionality coming soon!');
-            });
-        }
-    </script>
+    });
+    
+    // Handle filter button
+    const filterBtn = document.querySelector('.filter-btn');
+    if (filterBtn) {
+        filterBtn.addEventListener('click', function() {
+            alert('Filter functionality coming soon!');
+        });
+    }
+</script>
 </body>
 </html>
