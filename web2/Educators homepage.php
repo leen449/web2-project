@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Educator's Homepage</title>
+    <title>Educators Homepage</title>
     <link rel="stylesheet" href="Educator's homepage.css" />
     <link rel="stylesheet" href="style.css" />
   </head>
