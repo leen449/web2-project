@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Educator's Homepage</title>
+    <link rel="stylesheet" href="Educator's homepage.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body onload="start()">
+    <header>
+      <nav>
+        <ul>
+          <li><a href="index.php"><img src="images/mindly.png" alt="Mindly Logo" /></a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section>
+      <div class="topHeader">
+        <span class="welcome" style="color: #a654e6"
+          >Welcome <span style="color: #5945ec">Mohammed Ali</span></span
+        >
+      </div>
+
+      <div style="display: flex; justify-content: flex-end;">
+        <a href="index.php" style="text-decoration: underline;">log-out</a>
+    </div>
+    </section>
+
+    <section>
+      <div class="EduInfo">
+        <div class="EduDetails">
+          <p>name: mohammed Ali</p>
+
+          <p>email: mohammed12@gmail.com</p>
+        </div>
+        <div class="EduImg">
+          <img
+            style="border: 0.3px; height: 100px; object-fit: contain"
+            src="images/edu.png"
+            alt="profile picture"
+          />
+        </div>
+      </div>
+    </section>
+
+    <main>
+      <table>
+        <caption>
+          Your Quizzes
+        </caption>
+        <thead>
+          <tr>
+            <th>Topic</th>
+            <th>Number Of Questions</th>
+            <th>Quiz Statistics</th>
+            <th>Quiz Feedback</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td><a href="Quiz page.php">Math</a></td>
+            <td>5</td>
+            <td>
+              Number Of Quiz Takers:30 <br />
+              Average Score:80%
+            </td>
+            <td>
+              Average Rating: 4/5 <br />
+              <a href="comments.php">Comments</a>
+            </td>
+          </tr>
+          <tr>
+            <td><a href="Quiz page.php"> English</a></td>
+            <td>3</td>
+            <td>quiz not taken yet</td>
+            <td>no Feedback yet</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="recommendation-table">
+        <caption>
+          Question Recommendations
+        </caption>
+        <thead>
+          <tr>
+            <th>Topic</th>
+            <th>Learner</th>
+            <th>Question</th>
+            <th>Review</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>Math</td>
+
+            <td>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 15px;
+                  justify-content: center;
+                "
+              >
+                <span>salem omar</span>
+                <img
+                  style="
+                    border-radius: 50%;
+                    height: 40px;
+                    width: 40px;
+                    object-fit: cover;
+                  "
+                  src="images/learner.png"
+                  alt="learner picture"
+                />
+              </div>
+            </td>
+
+            <td>
+              <img
+                style="
+                  height: 100px;
+                  object-fit: contain;
+                  margin-left: 20svh;
+                  box-shadow: 0px 3px 17px rgb(61, 61, 61);
+                "
+                src="images/math.png"
+                alt="question picture"
+              />
+              <br />
+              what is 6^2? <br />
+              <ol style="list-style: circle">
+                <li>3</li>
+                <li>12</li>
+                <li style="background-color: lightgreen">36</li>
+                <li>1</li>
+              </ol>
+            </td>
+
+            <td>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  justify-content: center;
+                "
+              >
+                <label class="comment-label">comment: </label>
+                <textarea class="comment-textarea" name="" rows="2" ></textarea>
+              </div>
+              <br />
+              <ul
+                style="
+                  list-style-type: none;
+                  padding: 0;
+                  display: flex;
+                  gap: 10px;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                <li>Approve:</li>
+                <li>
+                  <label><input name="approve" type="radio" value="yes" /> Yes</label>
+                </li>
+                <li>
+                  <label><input name="approve" type="radio" value="no" /> No</label>
+                </li>
+              </ul>
+              <br />
+              <button style="margin-left: 300px" onclick="submitComment()">Submit</button>
+            </td>
+          </tr>
+          <tr>
+            <td>...</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+    <br />
+    <div class="footer-container">
+      <footer>
+        <p>&copy; 2025 Mindly. All rights reserved.</p>
+      </footer>
+    </div>
+    <script>
+    // Remove the cursor after animation ends
+    function start() {
+        document.body.style.opacity = "1";
+        
+        // Typing animation with cursor
+        const el = document.querySelector(".welcome");
+        const text = "Welcome Mohammed Ali";
+        const textLength = text.length;
+        
+        // Clear existing content and set initial state
+        el.textContent = "";
+        el.style.borderRight = "1px solid #000";
+        el.style.width = "0";
+        
+        // Create dynamic CSS keyframes
+        const style = document.createElement("style");
+        style.innerHTML = `
+            @keyframes typing {
+                from { width: 0; }
+                to { width: ${textLength}ch; }
+            }
+            
+            @keyframes blinkCursor {
+                50% { border-color: transparent; }
+            }
+            
+            .welcome {
+                animation: typing 2s steps(${textLength}) 1s 1 forwards, 
+                           blinkCursor 0.75s step-end infinite;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Set the text content after a delay to match animation
+        setTimeout(() => {
+            el.textContent = text;
+        }, 1000);
+        
+        // Remove cursor after animation ends
+        el.addEventListener("animationend", () => {
+            el.style.borderRight = "none";
+        });
+    }
+    
+    function submitComment() {
+        // Get textarea and radio button values
+        const comment = document.querySelector(".comment-textarea").value;
+        const approveYes = document.querySelector("input[name='approve'][value='yes']").checked;
+        const approveNo = document.querySelector("input[name='approve'][value='no']").checked;
+
+        // Validation checks
+        if (comment.trim() === "") {
+            alert("Please enter a comment.");
+            return; // Stop submission
+        }
+        if (!approveYes && !approveNo) {
+            alert("Please select Yes or No to approve.");
+            return; // Stop submission
+        }
+
+        // If all required fields are valid, submit the comment
+        alert("Your review has been submitted. Thank you!");
+        // Reset fields (optional)
+        document.querySelector(".comment-textarea").value = "";
+        document.querySelector("input[name='approve'][value='yes']").checked = false;
+        document.querySelector("input[name='approve'][value='no']").checked = false;
+        window.location.reload(); // Refresh the page to show updated recommendations
+    }
+</script>
+  </body>
+</html>

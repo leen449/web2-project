@@ -1,0 +1,65 @@
+html {
+  scroll-behavior: smooth;
+}
+body{font-family: Arial, sans-serif;}
+header {
+  box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.1);
+}
+nav {
+  background-image: linear-gradient(to right, #7341b1, #ee7979);
+  clip-path: ellipse(100% 100% at 50% 0%);
+  overflow: hidden;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav li {
+  list-style-type: none;
+  float: left;
+}
+nav img {
+  height: 50%;
+  width: 40%;
+}
+
+footer {
+  background-image: linear-gradient(to right, #7341b1, #ee7979);
+  clip-path: ellipse(100% 100% at 50% 100%); /* Curve at the top */
+  overflow: visible; /* Ensure shadow is visible */
+  width: 100%;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Box shadow with a larger spread */
+  padding: 20px 0;
+  text-align: center;
+  position: relative; /* Ensure stacking context */
+}
+
+footer p {
+  margin: 0;
+  font-size: 16px;
+  color: #0f1214;
+}
+button {
+  display: inline-block;
+  padding: 12px 25px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none; /* works for <a> and <button> */
+  color: #fff;
+  background-image: linear-gradient(to right, #7341b1, #ee7979); /* purple → pink */
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effect */
+button:hover {
+  background-image: linear-gradient(to right, #8a3ccf, #ff7b90); /* brighter gradient */
+  transform: scale(1.05); /* slight zoom */
+}
+
+/* Optional: for accessibility (keyboard focus) */
+button:focus {
+  outline: 2px solid #7341b1;
+  outline-offset: 3px;
+}
