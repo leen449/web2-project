@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -128,6 +129,16 @@ button:focus {
   </style>
 </head>
 <body onload="document.body.style.opacity='1'">
+    <?php
+if (isset($_GET['error'])) {
+    if ($_GET['error'] === 'access_denied') {
+        echo "<p style = 'color:red; '>Access Denied: You are not an educator.</p>";
+    } elseif ($_GET['error'] === 'not_logged_in') {
+        echo "<p style='color:red;'>Please log in first.</p>";
+    }
+}
+?>
+
     <header>
         <nav>
           <ul>
