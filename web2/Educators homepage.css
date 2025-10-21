@@ -1,0 +1,216 @@
+/* body{
+position:absolute;
+
+}  */
+html {
+  scroll-behavior: smooth;
+}
+body {
+  opacity: 0;
+  transition: opacity 1s ease-in-out; /* Fade-in effect DISCUSS  */
+  margin: 0;
+  padding: 0;
+}
+
+.topHeader {
+  clear: left; /* Clear floats MENTION  */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+}
+section a {
+  padding: 20px;
+  color: black;
+  text-decoration: none;
+}
+section a:hover {
+  color: rgb(138, 138, 141);
+}
+.welcome {
+  width: 0;
+  margin-top: 40px;
+  font-size: 30px;
+  text-wrap: nowrap;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 1px solid #000; /* Cursor effect */
+}
+
+.topHeader a {
+  padding-top: 3%;
+  color: black;
+}
+.topHeader a:hover {
+  color: rgb(138, 138, 141);
+}
+.recommendation-table {
+  animation: myScrollAnimation linear; /* Set animation name and timing function */
+  animation-timeline: scroll(root block);
+}
+
+@keyframes myScrollAnimation {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  80% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+.EduInfo {
+  display: grid;
+  grid-template-columns: 1fr auto; /* left side flexible, right side photo */
+  align-items: center; /* vertically center items */
+  border: 1px solid black;
+  padding: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.EduDetails {
+  font-size: 20px;
+  margin-left: 20px;
+  color: rgb(46, 47, 48);
+}
+
+.EduImg {
+  height: 100px;
+  border: 0.3px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style the entire table */
+table {
+  margin-top: 50px;
+  width: 90%;
+  border-collapse: collapse;
+  border: 1px solid black;
+  margin-left: 50px;
+}
+caption {
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+/* Style table headers */
+th {
+  background-image: radial-gradient(circle, #7341b1, #314e7c);
+  color: #ffffff;
+  padding: 15px;
+  text-align: left;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 10px;
+  text-align: left;
+  border: 1px solid black;
+}
+
+/* Style table data cells */
+td {
+  padding: 8px;
+  border: 1px solid black;
+}
+
+table a {
+  color: black;
+}
+
+table a:hover {
+  color: rgb(138, 138, 141);
+}
+
+/* Hover effect on rows */
+tr:hover {
+  background-color: #f0efef;
+}
+
+table ul li {
+  display: inline;
+  list-style-type: none;
+  padding: 0;
+}
+
+/* base styles */
+.comment-textarea {
+  padding: 8px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.3s;
+  
+}
+
+/* highlight border on focus */
+.comment-textarea:focus {
+  border-color: #007bff;
+}
+.comment-label {
+  transition: all 0.3s ease; /* smooth both ways */
+}
+/* move label when focused */
+div:focus-within .comment-label {
+  transform: translateY(-20px);
+  font-size: 18px;
+  color: #007bff;
+}
+
+button {
+  display: inline-block;
+  padding: 12px 25px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none; /* works for <a> and <button> */
+  color: #fff;
+  background-image: linear-gradient(to right, #7341b1, #ee7979); /* purple → pink */
+  transition:  0.3s ease, transform 0.3s ease;
+}
+button:hover {
+ background-image: linear-gradient(to right, #8a3ccf, #ff7b90); /* brighter gradient */
+  transform: scale(1.05); /* slight zoom */
+}
+
+
+@media (max-width: 768px) {
+  .topHeader {
+    padding: 15px;
+  }
+
+  .EduInfo {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    text-align: center;
+  }
+
+  table {
+    width: 95%;
+    margin-left: 2.5%;
+    font-size: 14px;
+  }
+
+  th,
+  td {
+    padding: 6px;
+  }
+
+  .welcome {
+    font-size: 24px;
+  }
+  .recommendation-table {
+        padding: 0 15px;
+    }
+    button:hover {
+      background: #7b34b4;
+    }
+}
