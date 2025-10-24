@@ -1,4 +1,67 @@
 
+<?php
+// ------------------------------------------
+// 1. INITIAL SETUP
+// ------------------------------------------
+session_start();
+include 'db.php';
+
+// ------------------------------------------
+// 2. HANDLE LOGIN FORM SUBMISSION
+// ------------------------------------------
+$error_message = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
+    $role = $_POST['role'] ?? '';
+
+    // Validate inputs
+    if (empty($email) || empty($password) || empty($role)) {
+        $error_message = 'Please fill in all fields.';
+    } else {
+        // Query database for user
+        $stmt = $connection->prepare("SELECT id, firstName, lastName, password, userType FROM user WHERE emailAddress = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 1) {
+            $user = $result->fetch_assoc();
+            
+            // Verify password (assuming plain text for now, should use password_hash in production)
+            if ($password === $user['password']) {
+                // Check if role matches
+                $db_role = strtolower($user['userType']);
+                
+                if ($db_role === $role) {
+                    // Set session variables
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['user_type'] = $user['userType'];
+                    $_SESSION['user_name'] = $user['firstName'] . ' ' . $user['lastName'];
+
+                    // Redirect based on role
+                    if ($role === 'learner') {
+                        header("Location: Learners_homepage.php");
+                        exit();
+                    } else if ($role === 'educator') {
+                        header("Location: Educators homepage.php");
+                        exit();
+                    }
+                } else {
+                    $error_message = 'Invalid role selected. You are registered as ' . $user['userType'] . '.';
+                }
+            } else {
+                $error_message = 'Invalid email or password.';
+            }
+        } else {
+            $error_message = 'Invalid email or password.';
+        }
+        $stmt->close();
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -130,14 +193,21 @@ button:focus {
 </head>
 <body onload="document.body.style.opacity='1'">
     <?php
-if (isset($_GET['error'])) {
-    if ($_GET['error'] === 'access_denied') {
-        echo "<p style = 'color:red; '>Access Denied: You are not an educator.</p>";
-    } elseif ($_GET['error'] === 'not_logged_in') {
-        echo "<p style='color:red;'>Please log in first.</p>";
+    // Display error messages
+    if (!empty($error_message)) {
+        echo "<p style='color:red; text-align:center; font-weight:bold;'>" . htmlspecialchars($error_message) . "</p>";
     }
-}
-?>
+    
+    if (isset($_GET['error'])) {
+        if ($_GET['error'] === 'access_denied') {
+            echo "<p style='color:red; text-align:center;'>Access Denied: You are not an educator.</p>";
+        } elseif ($_GET['error'] === 'access_denied_learner') {
+            echo "<p style='color:red; text-align:center;'>Access Denied: You are not a learner.</p>";
+        } elseif ($_GET['error'] === 'not_logged_in') {
+            echo "<p style='color:red; text-align:center;'>Please log in first.</p>";
+        }
+    }
+    ?>
 
     <header>
         <nav>
@@ -150,12 +220,12 @@ if (isset($_GET['error'])) {
       <main>
   
     <h2>Log In</h2>
-    <form onsubmit="event.preventDefault(); loginUser();">
-      <label>Email</label><input type="email" id="email" required>
-      <label>Password</label><input type="password" id="password" required>
+    <form method="POST" action="login.php">
+      <label>Email</label><input type="email" name="email" required>
+      <label>Password</label><input type="password" name="password" required>
       <label for="role">Sign in as</label>
-      <select id="role" required>
-        <option value=""> Role </option>
+      <select name="role" id="role" required>
+        <option value="">Select Role</option>
         <option value="learner">Learner</option>
         <option value="educator">Educator</option>
       </select>
@@ -170,15 +240,5 @@ if (isset($_GET['error'])) {
     </footer>
   </div>
 
-  <script>
-    function loginUser() {
-      const role = document.getElementById("role").value;
-      if (role === "learner") {
-        window.location.href = "Learner’s homepage.php";
-      } else if (role === "educator") {
-        window.location.href = "Educators homepage.php";
-      }
-    }
-  </script>
 </body>
 </html>

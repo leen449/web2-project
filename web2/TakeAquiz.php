@@ -76,7 +76,7 @@
   <header>
     <nav>
       <ul>
-        <li><a href="Learner’s homepage.php"><img src="images/mindly.png" alt="Mindly Logo" /></a></li>
+        <li><a href="Learners_homepage.php"><img src="images/mindly.png" alt="Mindly Logo" /></a></li>
       </ul>
     </nav>
   </header>

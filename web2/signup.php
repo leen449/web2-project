@@ -107,7 +107,7 @@ form { display: none; }
     </select>
 
     
-    <form id="learnerForm" onsubmit="event.preventDefault(); window.location.href='Learner’s homepage.php';">
+    <form id="learnerForm" onsubmit="event.preventDefault(); window.location.href='Learners_homepage.php';">
       <label>First Name</label><input type="text" required>
       <label>Last Name</label><input type="text" required>
       <label>Email</label><input type="email" required>

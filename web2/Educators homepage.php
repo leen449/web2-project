@@ -30,7 +30,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type'])) {
     exit();
 }
 
-if ($_SESSION['user_type'] !== 'educator') {
+if ($_SESSION['user_type'] !== 'Educator') {
     header("Location: login.php?error=access_denied");
     exit();
 }
