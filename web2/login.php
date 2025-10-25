@@ -1,8 +1,14 @@
 
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // ------------------------------------------
 // 1. INITIAL SETUP
 // ------------------------------------------
+ini_set('session.cookie_path', '/');
+
 session_start();
 include 'db.php';
 
@@ -45,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         header("Location: Learners_homepage.php");
                         exit();
                     } else if ($role === 'educator') {
-                        header("Location: Educators homepage.php");
+                        header("Location: Educators_homepage.php");
                         exit();
                     }
                 } else {
