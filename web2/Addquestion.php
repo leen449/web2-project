@@ -119,7 +119,7 @@ footer p {
     <header>
         <nav>
           <ul>
-            <li><a href="Educators homepage.html"><img src="images/mindly.png" alt="Mindly Logo" /></a></li>
+            <li><a href="Educators homepage.php"><img src="images/mindly.png" alt="Mindly Logo" /></a></li>
 
           </ul>
         </nav>
@@ -128,7 +128,7 @@ footer p {
       <br/>
   <div class="container">
     <h2>Add New Question</h2>
-    <form id="questionForm" action="Quiz page.html" onsubmit="alert('Question added successfully!')">
+    <form id="questionForm" action="Quiz page.php" onsubmit="alert('Question added successfully!')">
       <div class="form-group">
         <label>Question:</label>
         <textarea id="questionText" rows="4" required></textarea>

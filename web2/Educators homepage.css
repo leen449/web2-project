@@ -21,10 +21,6 @@ body {
   padding: 20px;
 }
 section a {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: flex-end;
   padding: 20px;
   color: black;
   text-decoration: none;
@@ -59,7 +55,7 @@ section a:hover {
     transform: translateY(-50px);
     opacity: 0;
   }
-  100% {
+  80% {
     transform: translateY(0px);
     opacity: 1;
   }
