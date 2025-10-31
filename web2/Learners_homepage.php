@@ -149,7 +149,7 @@ $result_recommend = $stmt_recommend->get_result();
         </div>
 
         <div style="display: flex; justify-content: flex-end;">
-            <a href="index.php" style="text-decoration: underline;">log-out</a>
+            <a href="logout.php" style="text-decoration: underline;">log-out</a>
         </div>
     </section>
 
