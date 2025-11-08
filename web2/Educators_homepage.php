@@ -76,7 +76,15 @@ $stmt_recommend = $connection->prepare($sql_recommend);
 $stmt_recommend->bind_param("i", $educator_id);
 $stmt_recommend->execute();
 $result_recommend = $stmt_recommend->get_result();
+
+/*=========================
+ alert action 
+  ========================
+ */
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -90,6 +98,11 @@ $result_recommend = $stmt_recommend->get_result();
 </head>
 
 <body onload="start()">
+    <?php if (isset($_GET['success']) && $_GET['success'] === 'deleted') {
+    echo "<script>
+        alert('Question deleted successfully!');
+    </script>";
+}?>
     <header>
         <nav>
             <ul>
