@@ -290,7 +290,7 @@
 
       <ul>
 
-        <li><a href="Learner’s homepage.html"><img src="images/mindly.png" alt="Mindly Logo" /></a></li>
+        <li><a href="Learners_homepage.php"><img src="images/mindly.png" alt="Mindly Logo" /></a></li>
 
       </ul>
 
@@ -469,7 +469,7 @@
 
     function goBack() {
 
-      window.location.href = "Learner’s homepage.html";
+      window.location.href = "Learners_homepage.php";
 
     }
 
@@ -483,7 +483,7 @@
 
       alert("Question added successfully!");
 
-      window.location.href = "Learner’s homepage.html";
+      window.location.href = "Learners_homepage.php";
 
     });
 

@@ -35,10 +35,19 @@ $quizID = intval($_GET['quizID']);
 // ------------------------------------------
 // 4. FETCH QUESTION INFO BEFORE DELETING
 // ------------------------------------------
-$stmt = $connection->prepare("SELECT questionFigureFileName FROM quizquestion WHERE id = ?");
+$stmt = $connection->prepare("
+    SELECT q.educatorID 
+    FROM quizquestion qq
+    JOIN quiz q ON qq.quizID = q.id
+    WHERE qq.id = ?
+");
 $stmt->bind_param("i", $questionID);
 $stmt->execute();
-$result = $stmt->get_result();
+$owner = $stmt->get_result()->fetch_assoc();
+if (!$owner || $owner['educatorID'] != $_SESSION['user_id']) {
+    die("<p style='color:red;text-align:center;'>Access denied.</p>");
+}
+
 
 if ($result->num_rows === 0) {
     $stmt->close();
