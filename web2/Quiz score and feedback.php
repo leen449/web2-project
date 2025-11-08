@@ -122,16 +122,20 @@ $stmt->close();
 // ------------------------------------------
 // 8. DETERMINE REACTION VIDEO BASED ON SCORE
 // ------------------------------------------
-$videoFile = 'videos/congrats.mp4';
+$videoFile = '';
 $videoMessage = '';
 
 if ($scorePercentage >= 90) {
+    $videoFile = 'videos/congrats.mp4';
     $videoMessage = 'Excellent! Outstanding performance!';
 } elseif ($scorePercentage >= 70) {
+    $videoFile = 'videos/congrats.mp4';
     $videoMessage = 'Great job! Well done!';
 } elseif ($scorePercentage >= 50) {
+    $videoFile = 'videos/tryagain.mp4';
     $videoMessage = 'Good effort! Keep practicing!';
 } else {
+    $videoFile = 'videos/tryagain.mp4';
     $videoMessage = 'Keep trying! Practice makes perfect!';
 }
 ?>
