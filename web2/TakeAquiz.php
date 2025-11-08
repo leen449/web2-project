@@ -44,9 +44,9 @@ while ($row = mysqli_fetch_assoc($questionResult)) {
     $questions[] = $row;
 }
 
-// Randomly select 5 (or fewer)
+// Randomly select 5 (or all if ≤5)
 shuffle($questions);
-$selectedQuestions = array_slice($questions, 0, 5);
+$selectedQuestions = array_slice($questions, 0, min(5, count($questions)));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -81,8 +81,7 @@ $selectedQuestions = array_slice($questions, 0, 5);
     <h2>Quiz in <?php echo htmlspecialchars($quiz['topicName']); ?></h2>
     <p><strong>Educator:</strong> <?php echo htmlspecialchars($quiz['educatorName']); ?></p>
 
-    <!-- ===== 5. Quiz Form ===== -->
-    <form action="Quiz%20score%20and%20feedback.php" method="post">
+    <form action="Quiz score and feedback.php" method="post">
       <!-- Hidden quiz ID -->
       <input type="hidden" name="quizID" value="<?php echo $quizID; ?>">
 
@@ -98,10 +97,10 @@ $selectedQuestions = array_slice($questions, 0, 5);
 
           echo "<p>" . htmlspecialchars($q['question']) . "</p>";
 
-          // Hidden question ID (optional)
+          // Hidden input for question ID
           echo "<input type='hidden' name='questionIDs[]' value='" . $q['id'] . "'>";
 
-          // Answers: **تعديل أسماء الحقول لتتوافق مع كود النتيجة**
+          // Radio buttons for answers
           echo '<div class="answers">';
           echo "<label><input type='radio' name='question_" . $q['id'] . "' value='A'> A) " . htmlspecialchars($q['answerA']) . "</label>";
           echo "<label><input type='radio' name='question_" . $q['id'] . "' value='B'> B) " . htmlspecialchars($q['answerB']) . "</label>";
