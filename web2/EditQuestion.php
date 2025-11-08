@@ -1,7 +1,8 @@
 <?php
-include 'db.php'; // اتصال بقاعدة البيانات
+// ===== 1. Include the database connection =====
+include 'db.php';
 
-// ===== التحقق من quiz_id و question_id =====
+// ===== 2. Validate quiz_id and question_id =====
 if (!isset($_GET['quiz_id']) || !isset($_GET['question_id'])) {
     die("Quiz ID or Question ID is missing!");
 }
@@ -9,9 +10,9 @@ if (!isset($_GET['quiz_id']) || !isset($_GET['question_id'])) {
 $quiz_id = intval($_GET['quiz_id']);
 $question_id = intval($_GET['question_id']);
 
-// ===== جلب بيانات السؤال =====
+// ===== 3. Fetch question data =====
 $sql = "SELECT * FROM quizquestion WHERE id = $question_id AND quizID = $quiz_id";
-$result = mysqli_query($conn, $sql);
+$result = mysqli_query($connection, $sql);
 
 if (!$result || mysqli_num_rows($result) == 0) {
     die("Question not found for this quiz.");
@@ -19,7 +20,7 @@ if (!$result || mysqli_num_rows($result) == 0) {
 
 $question = mysqli_fetch_assoc($result);
 
-// ===== معالجة الفورم عند الإرسال =====
+// ===== 4. Handle form submission =====
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $questionText = $_POST['questionText'];
     $answerA = $_POST['answerA'];
@@ -28,8 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $answerD = $_POST['answerD'];
     $correctAnswer = $_POST['correctAnswer'];
 
-    // ===== رفع الصورة الجديدة إذا تم اختيارها =====
-    $newImage = $question['questionFigureFileName']; // الصورة القديمة
+    // ===== Handle new image upload =====
+    $newImage = $question['questionFigureFileName']; // keep old image
     if (isset($_FILES['questionImage']) && $_FILES['questionImage']['error'] === 0) {
         $uploadDir = "uploads/";
         if (!is_dir($uploadDir)) mkdir($uploadDir);
@@ -39,26 +40,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $targetFile = $uploadDir . $filename;
 
         if (move_uploaded_file($_FILES['questionImage']['tmp_name'], $targetFile)) {
-            $newImage = $filename; // فقط اسم الملف يُخزن في DB
+            $newImage = $filename;
         }
     }
 
-    // ===== تحديث قاعدة البيانات =====
+    // ===== Update question in database =====
     $updateSql = "UPDATE quizquestion SET 
-                    question = '".mysqli_real_escape_string($conn,$questionText)."',
-                    questionFigureFileName = '".mysqli_real_escape_string($conn,$newImage)."',
-                    answerA = '".mysqli_real_escape_string($conn,$answerA)."',
-                    answerB = '".mysqli_real_escape_string($conn,$answerB)."',
-                    answerC = '".mysqli_real_escape_string($conn,$answerC)."',
-                    answerD = '".mysqli_real_escape_string($conn,$answerD)."',
-                    correctAnswer = '".mysqli_real_escape_string($conn,$correctAnswer)."'
+                    question = '" . mysqli_real_escape_string($connection, $questionText) . "',
+                    questionFigureFileName = '" . mysqli_real_escape_string($connection, $newImage) . "',
+                    answerA = '" . mysqli_real_escape_string($connection, $answerA) . "',
+                    answerB = '" . mysqli_real_escape_string($connection, $answerB) . "',
+                    answerC = '" . mysqli_real_escape_string($connection, $answerC) . "',
+                    answerD = '" . mysqli_real_escape_string($connection, $answerD) . "',
+                    correctAnswer = '" . mysqli_real_escape_string($connection, $correctAnswer) . "'
                   WHERE id = $question_id AND quizID = $quiz_id";
 
-    if (mysqli_query($conn, $updateSql)) {
-        header("Location: quiz_page.php?quizID=$quiz_id");
+    if (mysqli_query($connection, $updateSql)) {
+        header("Location: quiz_page.php?quizID=$quiz_id&success=edited");
         exit;
     } else {
-        echo "Error updating question: " . mysqli_error($conn);
+        echo "Error updating question: " . mysqli_error($connection);
     }
 }
 ?>
@@ -132,7 +133,7 @@ footer p { margin: 0; font-size: 16px; color: #0f1214; }
 <header>
   <nav>
     <ul>
-      <li><a href="Educators homepage.php"><img src="images/mindly.png" alt="Mindly Logo" /></a></li>
+      <li><a href="Educators_homepage.php"><img src="images/mindly.png" alt="Mindly Logo" /></a></li>
     </ul>
   </nav>
 </header>

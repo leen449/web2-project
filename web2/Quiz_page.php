@@ -136,7 +136,7 @@ if (isset($_GET['success'])) {
               </td>
 
               <td>
-                <a href="EditQuestion.php?questionID=<?php echo htmlspecialchars($row['id']); ?>">Edit</a>
+                 <a href="EditQuestion.php?quiz_id=<?php echo $quizID; ?>&question_id=<?php echo $row['id']; ?>">Edit</a>
               </td>
               <td>
                 <a href="DeleteQuestion.php?questionID=<?php echo htmlspecialchars($row['id']); ?>&quizID=<?php echo htmlspecialchars($quizID); ?>"
