@@ -6,6 +6,8 @@ header {
   box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.1);
 }
 nav {
+  min-height: 160px;  /* ensures curve never stretches vertically */
+  max-height: 180px;
   background-image: linear-gradient(to right, #7341b1, #ee7979);
   clip-path: ellipse(100% 100% at 50% 0%);
   overflow: hidden;

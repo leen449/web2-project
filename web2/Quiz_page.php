@@ -78,16 +78,6 @@ if (isset($_GET['success'])) {
   <link rel="stylesheet" href="style.css">
 </head>
 <body onload="document.body.style.opacity='1'">
-    <?php
-// ------------------------------------------
-// DISPLAY SUCCESS MESSAGE AFTER DELETION
-// ------------------------------------------
-if (isset($_GET['success']) && $_GET['success'] === 'deleted') {
-    echo "<script>
-        alert('Question deleted successfully!');
-    </script>";
-}
-?>
 
 
   <header>

@@ -33,21 +33,17 @@ $questionID = intval($_GET['questionID']);
 $quizID = intval($_GET['quizID']);
 
 // ------------------------------------------
-// 4. FETCH QUESTION INFO BEFORE DELETING
+// 4. FETCH QUESTION INFO AND CHECK OWNERSHIP
 // ------------------------------------------
 $stmt = $connection->prepare("
-    SELECT q.educatorID 
+    SELECT qq.questionFigureFileName, q.educatorID 
     FROM quizquestion qq
     JOIN quiz q ON qq.quizID = q.id
     WHERE qq.id = ?
 ");
 $stmt->bind_param("i", $questionID);
 $stmt->execute();
-$owner = $stmt->get_result()->fetch_assoc();
-if (!$owner || $owner['educatorID'] != $_SESSION['user_id']) {
-    die("<p style='color:red;text-align:center;'>Access denied.</p>");
-}
-
+$result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
     $stmt->close();
@@ -56,6 +52,11 @@ if ($result->num_rows === 0) {
 
 $question = $result->fetch_assoc();
 $stmt->close();
+
+// Ensure educator owns this quiz
+if ($question['educatorID'] != $_SESSION['user_id']) {
+    die("<p style='color:red;text-align:center;'>Access denied.</p>");
+}
 
 // ------------------------------------------
 // 5. DELETE QUESTION FROM DATABASE
@@ -71,13 +72,13 @@ $stmt_delete->close();
 if (!empty($question['questionFigureFileName'])) {
     $filePath = "uploads/" . $question['questionFigureFileName'];
     if (file_exists($filePath)) {
-        unlink($filePath); // delete image file from system
+        unlink($filePath); // delete image file
     }
 }
 
 // ------------------------------------------
-// 7. REDIRECT BACK TO QUIZ PAGE WITH MESSAGE
+// 7. REDIRECT BACK TO QUIZ PAGE
 // ------------------------------------------
-header("Location: Quiz page.php?quizID=$quizID&success=deleted");
+header("Location: Educators_homepage.php?quizID=$quizID&success=deleted");
 exit();
 ?>
