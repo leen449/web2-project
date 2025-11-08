@@ -1,0 +1,101 @@
+
+<?php
+// signup_process.php
+session_start();
+require 'db.php';
+
+function back_with($key, $msg) {
+    header("Location: signup.php?$key=" . urlencode($msg));
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    back_with('error', 'Invalid request.');
+}
+
+$first  = trim($_POST['firstName'] ?? '');
+$last   = trim($_POST['lastName'] ?? '');
+$email  = trim($_POST['email'] ?? '');
+$pass   = $_POST['password'] ?? '';
+$role   = $_POST['role'] ?? '';           // 'learner' | 'educator'
+$topics = $_POST['topic'] ?? [];          // topicIDs (only for educator)
+
+if ($first === '' || $last === '' || $email === '' || $pass === '' || ($role !== 'learner' && $role !== 'educator')) {
+    back_with('error', 'Please fill in all required fields.');
+}
+if ($role === 'educator' && (!is_array($topics) || count($topics) === 0)) {
+    back_with('error', 'Please select at least one topic for Educator accounts.');
+}
+
+/* 1) If email exists → back to signup with message */
+$stmt = $connection->prepare("SELECT id FROM user WHERE emailAddress = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$stmt->store_result();
+if ($stmt->num_rows > 0) {
+    $stmt->close();
+    back_with('error', 'Email already exists.');
+}
+$stmt->close();
+
+/* 2) Hash password */
+$hash = password_hash($pass, PASSWORD_DEFAULT);
+
+/* 3) Handle photo upload (else default) */
+// 3) Handle photo upload (store ONLY the filename in DB)
+$photo = 'default.jpg';  // ← store filename only
+
+if (isset($_FILES['photo']) && is_uploaded_file($_FILES['photo']['tmp_name'])) {
+    // allow only safe extensions
+    $ext = strtolower(pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION));
+    $allowed = ['jpg','jpeg','png','gif','webp'];
+    if (in_array($ext, $allowed, true)) {
+        $filename = uniqid('photo_', true) . '.' . $ext;   // e.g. photo_65f2...jpg
+        $dest = __DIR__ . "/uploads/$filename";
+
+        if (!is_dir(__DIR__ . '/uploads')) {
+            mkdir(__DIR__ . '/uploads', 0775, true);
+        }
+        if (move_uploaded_file($_FILES['photo']['tmp_name'], $dest)) {
+            $photo = $filename;  // ← store only the filename
+        }
+    }
+}
+
+
+/* 4) Insert user (columns: firstName,lastName,emailAddress,password,photoFileName,userType) */
+$userType = ucfirst($role); // 'Learner' | 'Educator' to match enum
+$ins = $connection->prepare(
+    "INSERT INTO user (firstName, lastName, emailAddress, password, photoFileName, userType)
+     VALUES (?, ?, ?, ?, ?, ?)"
+);
+$ins->bind_param("ssssss", $first, $last, $email, $hash, $photo, $userType);
+if (!$ins->execute()) {
+    $ins->close();
+    back_with('error', 'Failed to create account. Please try again.');
+}
+$userId = $ins->insert_id;
+$ins->close();
+
+/* (Optional but requested) 5) If educator, create one quiz row per selected topicID */
+if ($role === 'educator' && is_array($topics)) {
+    $q = $connection->prepare("INSERT INTO quiz (educatorID, topicID) VALUES (?, ?)");
+    foreach ($topics as $topicID) {
+        $tid = (int)$topicID;
+        if ($tid > 0) { $q->bind_param("ii", $userId, $tid); $q->execute(); }
+    }
+    $q->close();
+}
+
+/* 6) Set session variables (id + type) and redirect by type */
+session_regenerate_id(true);
+$_SESSION['user_id']   = $userId;
+$_SESSION['user_type'] = $role;                 // 'learner' | 'educator'
+$_SESSION['user_name'] = $first . ' ' . $last;
+
+if ($role === 'learner') {
+    header("Location: Learners_homepage.php");
+} else {
+    header("Location: Educators_homepage.php");
+}
+exit;
