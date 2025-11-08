@@ -69,7 +69,7 @@ $sql_recommend = "
     JOIN quiz q ON rq.quizID = q.id
     JOIN topic t ON q.topicID = t.id
     JOIN user u ON rq.learnerID = u.id
-    WHERE q.educatorID = ? AND rq.status = 'Pending'
+    WHERE q.educatorID = ? AND rq.status = 'pending'
     ORDER BY rq.id DESC
 ";
 $stmt_recommend = $connection->prepare($sql_recommend);

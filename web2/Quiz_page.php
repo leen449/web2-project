@@ -36,9 +36,9 @@ $stmt = $connection->prepare("
     SELECT t.topicName 
     FROM quiz q
     JOIN topic t ON q.topicID = t.id
-    WHERE q.id = ?
+    WHERE q.id = ? AND q.educatorID = ?
 ");
-$stmt->bind_param("i", $quizID);
+$stmt->bind_param("ii", $quizID, $_SESSION['user_id']);
 $stmt->execute();
 $result = $stmt->get_result();
 if ($result->num_rows === 0) {
@@ -52,11 +52,20 @@ $stmt->close();
 // ------------------------------------------
 $sql = "SELECT id, question, questionFigureFileName, answerA, answerB, answerC, answerD, correctAnswer 
         FROM quizquestion 
-        WHERE quizID = ?";
+        WHERE quizID = ?
+        ORDER BY id ASC";
+
 $stmt = $connection->prepare($sql);
 $stmt->bind_param("i", $quizID);
 $stmt->execute();
 $result_questions = $stmt->get_result();
+
+if (isset($_GET['success'])) {
+    if ($_GET['success'] === 'deleted') echo "<script>alert('Question deleted successfully!');</script>";
+    elseif ($_GET['success'] === 'added') echo "<script>alert('Question added successfully!');</script>";
+    elseif ($_GET['success'] === 'edited') echo "<script>alert('Question updated successfully!');</script>";
+}
+
 ?>
 
 <!DOCTYPE html>

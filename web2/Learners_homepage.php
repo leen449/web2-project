@@ -13,7 +13,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type'])) {
     exit();
 }
 
-if ($_SESSION['user_type'] !== 'Learner') {
+if (strtolower($_SESSION['user_type']) !== 'learner') {
     header("Location: login.php?error=access_denied_learner");
     exit();
 }

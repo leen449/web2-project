@@ -144,7 +144,7 @@
       <nav>
         <ul>
           <li>
-            <a href="Educators homepage.php"
+            <a href="Educators_homepage.php"
               ><img src="images/mindly.png" alt="Mindly Logo"
             /></a>
           </li>
@@ -188,7 +188,7 @@
         </div>
       </div>
 
-      <a href="Educators homepage.php" class="back-link">← Back to Homepage</a>
+      <a href="Educators_homepage.php" class="back-link">← Back to Homepage</a>
     </div>
 
     <!-- Footer -->
