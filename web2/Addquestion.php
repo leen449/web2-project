@@ -198,7 +198,7 @@ footer p {
     <header>
         <nav>
           <ul>
-            <li><a href="Educators homepage.php"><img src="images/mindly.png" alt="Mindly Logo" /></a></li>
+            <li><a href="Educators_homepage.php"><img src="images/mindly.png" alt="Mindly Logo" /></a></li>
           </ul>
         </nav>
     </header>
