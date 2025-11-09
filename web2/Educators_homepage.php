@@ -1,5 +1,4 @@
 <?php
-
 // ------------------------------------------
 // 1. INITIAL SETUP
 // ------------------------------------------
@@ -8,11 +7,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 ini_set('session.cookie_path', '/');
-<<<<<<< HEAD
 require_once 'reqLog.php';
-=======
-session_start();
->>>>>>> d536aad2c627f36efe9f532f8812d5c018ca1d6d
 require 'db.php';
 
 // ------------------------------------------
