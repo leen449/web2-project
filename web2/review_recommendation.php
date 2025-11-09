@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db.php';
+require 'db.php';
 
 // --- 1. Check login and educator role ---
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type'])) {
@@ -50,16 +50,44 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // --- 5. If approved, insert into QuizQuestion ---
     if (strtolower($status) === "approved") {
-        $sql_insert = "INSERT INTO quizquestion (quizID, question, questionFigureFileName)
-                       VALUES (?, ?, ?)";
+
+        // Fetch full details needed for quizquestion INSERT
+        $sql_full = "
+            SELECT question, questionFigureFileName, answerA, answerB, answerC, answerD, correctAnswer
+            FROM recommendedquestion
+            WHERE id = ?
+        ";
+        $stmt_full = $connection->prepare($sql_full);
+        $stmt_full->bind_param("i", $recID);
+        $stmt_full->execute();
+        $full = $stmt_full->get_result()->fetch_assoc();
+        $stmt_full->close();
+
+        // Insert full question info
+        $sql_insert = "
+            INSERT INTO quizquestion 
+            (quizID, question, questionFigureFileName, answerA, answerB, answerC, answerD, correctAnswer)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ";
         $stmt_insert = $connection->prepare($sql_insert);
-        $stmt_insert->bind_param("iss", $rec['quizID'], $rec['question'], $rec['questionFigureFileName']);
+        $stmt_insert->bind_param(
+            "isssssss",
+            $rec['quizID'],
+            $full['question'],
+            $full['questionFigureFileName'],
+            $full['answerA'],
+            $full['answerB'],
+            $full['answerC'],
+            $full['answerD'],
+            $full['correctAnswer']
+        );
         $stmt_insert->execute();
     }
 
     // --- 6. Redirect back ---
     header("Location: Educators_homepage.php?success=review_updated");
     exit();
+
 } else {
     header("Location: Educators_homepage.php?error=invalid_access");
     exit();
