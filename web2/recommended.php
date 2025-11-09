@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "db.php";
+require "db.php";
 
 // ---- Guard: must be logged in as learner ----
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type']) || strtolower($_SESSION['user_type']) !== 'learner') {
