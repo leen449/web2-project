@@ -142,6 +142,9 @@ footer p { margin: 0; font-size: 16px; color: #0f1214; }
 <div class="container">
   <h2>Edit Question</h2>
   <form method="post" enctype="multipart/form-data">
+    <input type="hidden" name="questionID" value="<?php echo $question_id; ?>">
+    <input type="hidden" name="quizID" value="<?php echo $quiz_id; ?>">
+
     <label for="questionText">Question:</label>
     <textarea id="questionText" name="questionText" rows="3"><?php echo htmlspecialchars($question['question']); ?></textarea>
 
