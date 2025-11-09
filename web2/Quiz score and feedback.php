@@ -1,17 +1,27 @@
 <?php
+require_once 'reqLog.php';
 // ------------------------------------------
 // 1. INITIAL SETUP
 // ------------------------------------------
+<<<<<<< HEAD
+=======
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
+>>>>>>> d536aad2c627f36efe9f532f8812d5c018ca1d6d
 require 'db.php';
 
 // ------------------------------------------
 // 2. SESSION AND USER VALIDATION
 // ------------------------------------------
- if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type'])) {
-   header("Location: login.php?error=not_logged_in");
-   exit();  }
-  if ($_SESSION['user_type'] !== 'learner') {
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type'])) {
+    header("Location: login.php?error=not_logged_in");
+    exit();
+}
+
+if ($_SESSION['user_type'] !== 'Learner') {
     header("Location: login.php?error=access_denied_learner");
     exit();
 }

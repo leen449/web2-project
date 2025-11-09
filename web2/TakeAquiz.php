@@ -1,4 +1,10 @@
 <?php
+<<<<<<< HEAD
+=======
+
+>>>>>>> d536aad2c627f36efe9f532f8812d5c018ca1d6d
+require_once 'reqLog.php';
+
 // ===== 1. Connect to the database =====
 $servername = "localhost";
 $username = "root";
