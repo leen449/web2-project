@@ -11,7 +11,7 @@ if (!$conn) {
 }
 require_once 'reqLog.php';
 
-// ===== 2. Get quiz ID from URL =====
+// Get quiz ID from URL ( req 1 )
 if (!isset($_GET['quizID'])) {
     die("Quiz ID is missing.");
 }
@@ -36,16 +36,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $imagePath = $targetFile;
     }
 
-    // Insert question into database
+    // Insert question into database ( req 2 )
     $sql = "INSERT INTO quizquestion 
             (quizID, question, questionFigureFileName, answerA, answerB, answerC, answerD, correctAnswer)
             VALUES ('$quizID', '$question', '$imagePath', '$answerA', '$answerB', '$answerC', '$answerD', '$correctAnswer')";
 
     if (mysqli_query($conn, $sql)) {
+        //Redirect to quiz page
          echo "<script>
-            alert('Question added successfully!');
-            window.location.href='Educators_homepage.php';
-          </script>";
+    alert('Question added successfully!');
+    window.location.href='quiz_page.php?quizID=$quizID';
+  </script>";
     exit;
     } else {
         echo "Error: " . mysqli_error($conn);
@@ -207,7 +208,9 @@ footer p {
 
   <div class="container">
     <h2>Add New Question</h2>
+    <!-- sends data to php ( req 2 ) -->
     <form method="POST" enctype="multipart/form-data">
+        <!-- req 2 -->
       <input type="hidden" name="quizID" value="<?php echo $quizID; ?>">
       <div class="form-group">
         <label>Question:</label>
