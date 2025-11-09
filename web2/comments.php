@@ -108,9 +108,9 @@ if (isset($_GET['quizID'])) {
             echo "<div class='comment'>";
             echo "<div class='comment-header'>";
             echo "<span class='comment-anon'>Anonymous</span>";
-            echo "<span class='comment-date'>" . htmlspecialchars($row['feedbackDate']) . "</span>";
+            echo "<span class='comment-date'>" . htmlspecialchars($row['date']) . "</span>";
             echo "</div>";
-            echo "<div class='comment-text'>" . htmlspecialchars($row['commentText']) . "</div>";
+            echo "<div class='comment-text'>" . htmlspecialchars($row['comments']) . "</div>";
             echo "</div>";
         }
     } else {
@@ -118,7 +118,7 @@ if (isset($_GET['quizID'])) {
     }
     ?>
 
-    <a href="educator.php" class="back-link">← Back to Homepage</a>
+    <a href="educators_homepage.php" class="back-link">← Back to Homepage</a>
   </div>
 
   <!-- Footer -->

@@ -25,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Verify hashed password
             if (password_verify($password, $user['password'])) {
 
-                // Create session
                 session_regenerate_id(true);
                 $_SESSION['user_id']   = $user['id'];
                 $_SESSION['user_type'] = strtolower($user['userType']); 

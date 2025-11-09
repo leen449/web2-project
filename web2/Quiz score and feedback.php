@@ -8,12 +8,10 @@ include 'db.php';
 // ------------------------------------------
 // 2. SESSION AND USER VALIDATION
 // ------------------------------------------
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type'])) {
-    header("Location: login.php?error=not_logged_in");
-    exit();
-}
-
-if ($_SESSION['user_type'] !== 'Learner') {
+ if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type'])) {
+   header("Location: login.php?error=not_logged_in");
+   exit();  }
+  if ($_SESSION['user_type'] !== 'learner') {
     header("Location: login.php?error=access_denied_learner");
     exit();
 }
