@@ -1,9 +1,7 @@
 <?php
 require_once 'reqLog.php';
-// ===== 1. Include the database connection =====
 require 'db.php';
 
-// ===== 2. Validate quiz_id and question_id =====
 if (!isset($_GET['quiz_id']) || !isset($_GET['question_id'])) {
     die("Quiz ID or Question ID is missing!");
 }
@@ -11,7 +9,6 @@ if (!isset($_GET['quiz_id']) || !isset($_GET['question_id'])) {
 $quiz_id = intval($_GET['quiz_id']);
 $question_id = intval($_GET['question_id']);
 
-// ===== 3. Fetch question data =====
 $sql = "SELECT * FROM quizquestion WHERE id = $question_id AND quizID = $quiz_id";
 $result = mysqli_query($connection, $sql);
 
@@ -21,7 +18,7 @@ if (!$result || mysqli_num_rows($result) == 0) {
 
 $question = mysqli_fetch_assoc($result);
 
-// ===== 4. Handle form submission =====
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $questionText = $_POST['questionText'];
     $answerA = $_POST['answerA'];
@@ -30,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $answerD = $_POST['answerD'];
     $correctAnswer = $_POST['correctAnswer'];
 
-    // ===== Handle new image upload =====
+    
     $newImage = $question['questionFigureFileName']; // keep old image
     if (isset($_FILES['questionImage']) && $_FILES['questionImage']['error'] === 0) {
         $uploadDir = "uploads/";
@@ -45,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // ===== Update question in database =====
+    //Update question in database
     $updateSql = "UPDATE quizquestion SET 
                     question = '" . mysqli_real_escape_string($connection, $questionText) . "',
                     questionFigureFileName = '" . mysqli_real_escape_string($connection, $newImage) . "',
