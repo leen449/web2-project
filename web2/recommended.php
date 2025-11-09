@@ -1,74 +1,100 @@
 <?php
 session_start();
+include "db.php";
 
-// Assuming learner is logged in and their ID is stored in session
-$learnerID = $_SESSION['userID'] ?? 3346; // Default for testing
-
-// Database connection
-$host = "localhost";
-$user = "root";      // replace with your DB username
-$pass = "";          // replace with your DB password
-$dbname = "mindlydatabase";
-
-$conn = new mysqli($host, $user, $pass, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// ---- Guard: must be logged in as learner ----
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type']) || strtolower($_SESSION['user_type']) !== 'learner') {
+    header("Location: login.php?error=not_logged_in");
+    exit;
 }
 
-// Fetch topics
+$learnerID = (int) $_SESSION['user_id'];
+
+// ---- Fetch topics ----
 $topics = [];
-$result = $conn->query("SELECT id, topicName FROM topic ORDER BY topicName ASC");
-if ($result) {
-    while ($row = $result->fetch_assoc()) {
+if ($res = $connection->query("SELECT id, topicName FROM topic ORDER BY topicName ASC")) {
+    while ($row = $res->fetch_assoc()) {
         $topics[] = $row;
     }
+    $res->free();
 }
 
-// Fetch educators (Phase 2: all educators)
+// ---- Fetch all educators (Phase 2: all educators) ----
 $educators = [];
-$result = $conn->query("SELECT id, firstName, lastName FROM user WHERE userType='Educator' ORDER BY firstName ASC");
-if ($result) {
-    while ($row = $result->fetch_assoc()) {
-        $educators[] = $row;
-    }
+$stmtEdu = $connection->prepare("SELECT id, firstName, lastName FROM user WHERE userType = 'Educator' ORDER BY firstName ASC");
+$stmtEdu->execute();
+$resEdu = $stmtEdu->get_result();
+while ($row = $resEdu->fetch_assoc()) {
+    $educators[] = $row;
 }
+$stmtEdu->close();
 
-// Handle form submission
+// ---- Handle submission ----
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $topicID = $_POST['topic'];
-    $educatorID = $_POST['educator'];
-    $question = $_POST['question'];
-    $choiceA = $_POST['choiceA'];
-    $choiceB = $_POST['choiceB'];
-    $choiceC = $_POST['choiceC'];
-    $choiceD = $_POST['choiceD'];
-    $correct = $_POST['correct'];
-    
-    // Handle file upload if exists
+    // Sanitize/validate
+    $topicID    = (int)($_POST['topic'] ?? 0);
+    $educatorID = (int)($_POST['educator'] ?? 0);
+    $question   = trim($_POST['question'] ?? '');
+    $choiceA    = trim($_POST['choiceA'] ?? '');
+    $choiceB    = trim($_POST['choiceB'] ?? '');
+    $choiceC    = trim($_POST['choiceC'] ?? '');
+    $choiceD    = trim($_POST['choiceD'] ?? '');
+    $correct    = trim($_POST['correct'] ?? '');
+
+    if (!$topicID || !$educatorID || $question === '' || $choiceA === '' || $choiceB === '' || $choiceC === '' || $choiceD === '' || !in_array($correct, ['A','B','C','D'], true)) {
+        echo "<script>alert('Please fill all fields correctly.'); history.back();</script>";
+        exit;
+    }
+
+    // File upload (store filename only)
     $figureFileName = "";
     if (isset($_FILES['figure']) && $_FILES['figure']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = "uploads/";
-        if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
-        $figureFileName = time() . "_" . basename($_FILES['figure']['name']);
-        move_uploaded_file($_FILES['figure']['tmp_name'], $uploadDir . $figureFileName);
+        $uploadDirFs = __DIR__ . "/uploads/";
+        if (!is_dir($uploadDirFs)) {
+            mkdir($uploadDirFs, 0775, true);
+        }
+        $ext = strtolower(pathinfo($_FILES['figure']['name'], PATHINFO_EXTENSION));
+        $allowed = ['jpg','jpeg','png','gif','webp'];
+        if (in_array($ext, $allowed, true)) {
+            $figureFileName = time() . "_" . bin2hex(random_bytes(4)) . "." . $ext;
+            if (!move_uploaded_file($_FILES['figure']['tmp_name'], $uploadDirFs . $figureFileName)) {
+                $figureFileName = ""; // fallback if move fails
+            }
+        }
     }
 
-    // Determine quizID for this topic & educator (simplified: pick first matching)
-    $quizIDResult = $conn->query("SELECT id FROM quiz WHERE topicID='$topicID' AND educatorID='$educatorID' LIMIT 1");
-    $quizID = $quizIDResult->fetch_assoc()['id'] ?? 0;
+    // Find quiz for educator + topic (prepared)
+    $quizStmt = $connection->prepare("SELECT id FROM quiz WHERE topicID = ? AND educatorID = ? LIMIT 1");
+    $quizStmt->bind_param("ii", $topicID, $educatorID);
+    $quizStmt->execute();
+    $quizRes = $quizStmt->get_result();
+    $quizRow = $quizRes->fetch_assoc();
+    $quizStmt->close();
 
-    // Insert recommended question
-    $stmt = $conn->prepare("INSERT INTO recommendedquestion (quizID, learnerID, question, questionFigureFileName, answerA, answerB, answerC, answerD, correctAnswer, status, comments) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', '')");
-    $stmt->bind_param("iisssssss", $quizID, $learnerID, $question, $figureFileName, $choiceA, $choiceB, $choiceC, $choiceD, $correct);
+    if (!$quizRow) {
+        echo "<script>alert('No quiz found for the selected educator and topic.'); history.back();</script>";
+        exit;
+    }
+    $quizID = (int)$quizRow['id'];
+
+    // Insert recommended question (status = pending, comments = '')
+    $stmt = $connection->prepare("
+        INSERT INTO recommendedquestion
+            (quizID, learnerID, question, questionFigureFileName, answerA, answerB, answerC, answerD, correctAnswer, status, comments)
+        VALUES
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', '')
+    ");
+    $stmt->bind_param(
+        "iisssssss",
+        $quizID, $learnerID, $question, $figureFileName, $choiceA, $choiceB, $choiceC, $choiceD, $correct
+    );
     $stmt->execute();
     $stmt->close();
 
-    // Redirect to learner homepage
     echo "<script>alert('Question added successfully!'); window.location.href='Learners_homepage.php';</script>";
     exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,7 +102,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Recommend Question - Mindly</title>
   <style>
-    /* Your existing CSS code here (kept intact) */
     button:hover { background: #7b34b4; }
     html { scroll-behavior: smooth; }
     header { box-shadow: 2px 6px 10px rgba(0,0,0,0.1); }
@@ -96,7 +121,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     textarea#questionText { min-height: 140px; resize: vertical; }
     .correct-wrap { display: flex; gap: 8px; align-items: center; }
     .correct-wrap select { width: 68px; padding: 6px; }
-    .correct-wrap input[type="text"] { width: 70px; padding: 6px; text-align: center; }
     .button-row { text-align: center; margin-top: 18px; display: flex; justify-content: center; gap: 12px; }
     .btn { display: inline-block; padding: 12px 25px; border-radius: 8px; border: none; cursor: pointer; font-size: 16px; font-weight: bold; text-decoration: none; color: #fff; background-image: linear-gradient(to right, #7341b1, #ee7979); transition: background 0.3s ease, transform 0.3s ease; }
     .btn:hover { background-image: linear-gradient(to right, #8a3ccf, #ff7b90); transform: scale(1.05); }
@@ -124,18 +148,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <label for="topic">Topic:</label>
         <select id="topic" name="topic" required>
           <option value="">Select Topic</option>
-          <?php foreach ($topics as $topic) { ?>
-            <option value="<?php echo $topic['id']; ?>"><?php echo $topic['topicName']; ?></option>
-          <?php } ?>
+          <?php foreach ($topics as $topic): ?>
+            <option value="<?php echo (int)$topic['id']; ?>">
+              <?php echo htmlspecialchars($topic['topicName']); ?>
+            </option>
+          <?php endforeach; ?>
         </select>
 
         <!-- Educator -->
         <label for="educator">Educator:</label>
         <select id="educator" name="educator" required>
           <option value="">Select Educator</option>
-          <?php foreach ($educators as $edu) { ?>
-            <option value="<?php echo $edu['id']; ?>"><?php echo $edu['firstName'] . ' ' . $edu['lastName']; ?></option>
-          <?php } ?>
+          <?php foreach ($educators as $edu): ?>
+            <option value="<?php echo (int)$edu['id']; ?>">
+              <?php echo htmlspecialchars($edu['firstName'] . ' ' . $edu['lastName']); ?>
+            </option>
+          <?php endforeach; ?>
         </select>
 
         <!-- Question -->
@@ -188,10 +216,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     window.addEventListener("load", function() {
       document.body.classList.add("loaded");
     });
-
-    function goBack() {
-      window.location.href = "Learners_homepage.php";
-    }
+    function goBack() { window.location.href = "Learners_homepage.php"; }
   </script>
 </body>
 </html>

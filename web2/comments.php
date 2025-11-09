@@ -1,19 +1,14 @@
 <?php
 // --- BACKEND LOGIC ---
+require "db.php";
 
-// Connect to your database
-$connect = mysqli_connect("localhost", "root", "", "mindlydatabase");
-if (!$connect) {
-    die("Connection failed: " . mysqli_connect_error());
-}
 
-// Check if quizID is provided
 if (isset($_GET['quizID'])) {
     $quizID = $_GET['quizID'];
 
     // Retrieve feedback for this quiz ordered from newest to oldest
     $query = "SELECT * FROM quizfeedback WHERE quizID = ? ORDER BY id DESC";
-    $stmt = mysqli_prepare($connect, $query);
+    $stmt = mysqli_prepare($connection, $query);
     mysqli_stmt_bind_param($stmt, "i", $quizID);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);

@@ -2,6 +2,7 @@
 <?php
 // login.php
 session_start();
+
 require 'db.php';
 
 $error_message = "";
