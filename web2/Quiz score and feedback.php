@@ -73,7 +73,6 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
-    $totalQuestions = $result->num_rows;
     
     while ($question = $result->fetch_assoc()) {
         $questionID = $question['id'];
@@ -81,6 +80,7 @@ if ($result->num_rows > 0) {
         
         // Check if this question was answered
         if (isset($_POST['question_' . $questionID])) {
+              $totalQuestions++;
             $userAnswer = $_POST['question_' . $questionID];
             
             // Compare answers
