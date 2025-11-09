@@ -1,5 +1,7 @@
 <?php
-include 'db_connection.php';
+require 'db.php';
+require_once 'reqLog.php';
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $question = $_POST['question'];

@@ -8,7 +8,7 @@ error_reporting(E_ALL);
 
 ini_set('session.cookie_path', '/');
 session_start();
-include 'db.php';
+require 'db.php';
 
 // ------------------------------------------
 // 2. SESSION AND ROLE VALIDATION
