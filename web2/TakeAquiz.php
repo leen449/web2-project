@@ -1,7 +1,7 @@
 <?php
 require_once 'reqLog.php';
 
-// ===== 1. Connect to the database =====
+
 $servername = "localhost";
 $username = "root";
 $password = "root";
@@ -12,13 +12,13 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// ===== 2. Check quizID from URL =====
+//  Check quizID from URL ( req 1 )
 if (!isset($_GET['quizID'])) {
     die("Error: Quiz ID not provided.");
 }
 $quizID = intval($_GET['quizID']);
 
-// ===== 3. Retrieve quiz info =====
+// Retrieve quiz info( req 2 )
 $quizQuery = "
   SELECT Quiz.id AS quizID, Topic.topicName, 
          CONCAT(User.firstName, ' ', User.lastName) AS educatorName
@@ -33,20 +33,20 @@ if (mysqli_num_rows($quizResult) == 0) {
 }
 $quiz = mysqli_fetch_assoc($quizResult);
 
-// ===== 4. Retrieve questions =====
+// Retrieve questions ( req 3 )
 $questionQuery = "SELECT * FROM QuizQuestion WHERE quizID = $quizID";
 $questionResult = mysqli_query($conn, $questionQuery);
 if (mysqli_num_rows($questionResult) == 0) {
     die("Error: No questions found for this quiz.");
 }
 
-// Convert to array for random selection
+
 $questions = [];
 while ($row = mysqli_fetch_assoc($questionResult)) {
     $questions[] = $row;
 }
 
-// Randomly select 5 (or all if ≤5)
+// Randomly select 5 (or all if ≤5) ( req 3)
 shuffle($questions);
 $selectedQuestions = array_slice($questions, 0, min(5, count($questions)));
 ?>
@@ -82,12 +82,12 @@ $selectedQuestions = array_slice($questions, 0, min(5, count($questions)));
   <div class="quiz-container">
     <h2>Quiz in <?php echo htmlspecialchars($quiz['topicName']); ?></h2>
     <p><strong>Educator:</strong> <?php echo htmlspecialchars($quiz['educatorName']); ?></p>
-
+ <!-- request to score and feedback ( req 5 )  -->
     <form action="Quiz score and feedback.php" method="post">
-      <!-- Hidden quiz ID -->
+      <!-- Hidden quiz ID ( req 4 )  -->
       <input type="hidden" name="quizID" value="<?php echo $quizID; ?>">
 
-      <?php
+      <?php //( req 3 )
       $qNum = 1;
       foreach ($selectedQuestions as $q) {
           echo '<div class="question-box">';
@@ -99,10 +99,10 @@ $selectedQuestions = array_slice($questions, 0, min(5, count($questions)));
 
           echo "<p>" . htmlspecialchars($q['question']) . "</p>";
 
-          // Hidden input for question ID
+          // Hidden input for question ID  ( req 4 )
           echo "<input type='hidden' name='questionIDs[]' value='" . $q['id'] . "'>";
 
-          // Radio buttons for answers
+         
           echo '<div class="answers">';
           echo "<label><input type='radio' name='question_" . $q['id'] . "' value='A'> A) " . htmlspecialchars($q['answerA']) . "</label>";
           echo "<label><input type='radio' name='question_" . $q['id'] . "' value='B'> B) " . htmlspecialchars($q['answerB']) . "</label>";
