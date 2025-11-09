@@ -54,7 +54,7 @@ try {
     exit();
     
 } catch (Exception $e) {
-    // Log error (in a real application, you'd want to log this to a file)
+    // Log error 
     error_log("Error submitting feedback: " . $e->getMessage());
     
     // Redirect with error message

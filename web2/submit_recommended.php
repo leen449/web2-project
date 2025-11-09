@@ -2,7 +2,7 @@
 session_start();
 require "db.php";
 
-// ---- Guard: must be logged in as learner ----
+// ---- must be logged in as learner ----
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type']) || strtolower($_SESSION['user_type']) !== 'learner') {
     header("Location: login.php?error=not_logged_in");
     exit;
@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type']) || strtolower
 $learnerID = (int) $_SESSION['user_id'];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Sanitize/validate
+    // validate
     $topicID    = (int)($_POST['topic'] ?? 0);
     $educatorID = (int)($_POST['educator'] ?? 0);
     $question   = trim($_POST['question'] ?? '');
@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $ext = strtolower(pathinfo($_FILES['figure']['name'], PATHINFO_EXTENSION));
         $allowed = ['jpg','jpeg','png','gif','webp'];
         if (in_array($ext, $allowed, true)) {
-            // use time + random bytes for filename (same logic as original)
+            // use time + random bytes for filename 
             try {
                 $figureFileName = time() . "_" . bin2hex(random_bytes(4)) . "." . $ext;
             } catch (Exception $e) {

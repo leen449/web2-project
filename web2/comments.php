@@ -1,5 +1,5 @@
 <?php
-// --- BACKEND LOGIC ---
+
 require "db.php";
 require_once 'reqLog.php';
 

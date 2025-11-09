@@ -9,7 +9,7 @@ session_start();
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sign Up</title>
   <style>
-/* your original styles remain the same */
+
 body { font-family: Arial, sans-serif; margin: 0; background: #f0f2f5; min-height: 100vh; display: flex; flex-direction: column; opacity: 0; transition: opacity 1s ease-in-out; }
 header { box-shadow: 2px 6px 10px rgba(0,0,0,0.1); }
 nav { background-image: linear-gradient(to right, #7341b1, #ee7979); clip-path: ellipse(100% 100% at 50% 0%); overflow: hidden; width: 100%; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
@@ -54,7 +54,7 @@ form { display: none; }
       <option value="educator">Educator</option>
     </select>
 
-    <!-- Learner form -->
+    <!-- learner form -->
     <form id="learnerForm" action="signup_process.php" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="role" value="learner">
       <label>First Name</label><input type="text" name="firstName" required>
@@ -65,7 +65,7 @@ form { display: none; }
       <button type="submit">Sign Up as Learner</button>
     </form>
 
-    <!-- Educator form -->
+    <!-- edu form -->
     <form id="educatorForm" action="signup_process.php" method="POST" enctype="multipart/form-data"> 
       <input type="hidden" name="role" value="educator">
       <label>First Name</label><input type="text" name="firstName" required>

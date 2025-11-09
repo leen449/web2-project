@@ -2,7 +2,7 @@
 session_start();
 require 'db.php';
 
-// --- 1. Check login and educator role ---
+//Check login and educator role 
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type'])) {
     header("Location: login.php?error=not_logged_in");
     exit();
@@ -14,7 +14,7 @@ if (strtolower($_SESSION['user_type']) !== 'educator') {
 
 $educator_id = $_SESSION['user_id'];
 
-// --- 2. Validate form input ---
+// ---  Validate form input ---
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $recID = $_POST['recID'] ?? null;
     $status = $_POST['status'] ?? null;
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         die("Invalid request: Missing data.");
     }
 
-    // --- 3. Retrieve recommended question details ---
+    // ---  Retrieve recommended question details ---
     $sql_getRec = "
         SELECT rq.quizID, rq.question, rq.questionFigureFileName
         FROM recommendedquestion rq
@@ -42,13 +42,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $rec = $result->fetch_assoc();
 
-    // --- 4. Update RecommendedQuestion ---
+    // ---  Update RecommendedQuestion ---
     $sql_update = "UPDATE recommendedquestion SET status = ?, comments = ? WHERE id = ?";
     $stmt_update = $connection->prepare($sql_update);
     $stmt_update->bind_param("ssi", $status, $comment, $recID);
     $stmt_update->execute();
 
-    // --- 5. If approved, insert into QuizQuestion ---
+    // ---  If approved, insert into QuizQuestion ---
     if (strtolower($status) === "approved") {
 
         // Fetch full details needed for quizquestion INSERT
@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt_insert->execute();
     }
 
-    // --- 6. Redirect back ---
+    // ---  Redirect back ---
     header("Location: Educators_homepage.php?success=review_updated");
     exit();
 

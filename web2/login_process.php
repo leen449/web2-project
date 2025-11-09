@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Fetch user by email
+    // get user by email
     $stmt = $connection->prepare("
         SELECT id, firstName, lastName, password, userType 
         FROM user 
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($user = $result->fetch_assoc()) {
         
         if (password_verify($password, $user['password'])) {
-            // SUCCESS
+            // successful
             session_regenerate_id(true);
             $_SESSION['user_id']   = $user['id'];
             $_SESSION['user_type'] = strtolower($user['userType']);
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // FAILED
+    // failed
     header("Location: login.php?error=invalid_credentials");
     exit();
 }

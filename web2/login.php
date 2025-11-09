@@ -1,6 +1,6 @@
 
 <?php
-// login.php
+
 session_start();
 
 
@@ -15,7 +15,7 @@ session_start();
   <title>Log In</title>
   
   <style>
-/* --- Your page styling (unchanged) --- */
+
 
 html { scroll-behavior: smooth; }
 body {

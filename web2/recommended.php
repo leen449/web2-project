@@ -2,7 +2,7 @@
 session_start();
 require "db.php";
 
-// ---- Guard: must be logged in as learner ----
+// ---- must be logged in as learner ----
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type']) || strtolower($_SESSION['user_type']) !== 'learner') {
     header("Location: login.php?error=not_logged_in");
     exit;
@@ -19,7 +19,7 @@ if ($res = $connection->query("SELECT id, topicName FROM topic ORDER BY topicNam
     $res->free();
 }
 
-// ---- Fetch all educators (Phase 2: all educators) ----
+// ---- Fetch all educators  ----
 $educators = [];
 $stmtEdu = $connection->prepare("SELECT id, firstName, lastName FROM user WHERE userType = 'Educator' ORDER BY firstName ASC");
 $stmtEdu->execute();

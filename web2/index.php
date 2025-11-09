@@ -49,10 +49,10 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* ✅ centers vertically */
+  justify-content: center; 
   text-align: center;
   padding: 40px 20px; 
-  min-height: calc(100vh - 140px); /* header + footer space */
+  min-height: calc(100vh - 140px); 
 }
 
 
@@ -102,19 +102,19 @@ font-style: italic;
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
-  text-decoration: none; /* works for <a> and <button> */
+  text-decoration: none; 
   color: #fff;
-  background-image: linear-gradient(to right, #7341b1, #ee7979); /* purple → pink */
+  background-image: linear-gradient(to right, #7341b1, #ee7979); 
   transition: background 0.3s ease, transform 0.3s ease;
 }
 
 /* Hover effect */
 #button:hover {
-  background-image: linear-gradient(to right, #8a3ccf, #ff7b90); /* brighter gradient */
-  transform: scale(1.05); /* slight zoom */
+  background-image: linear-gradient(to right, #8a3ccf, #ff7b90); 
+  transform: scale(1.05); 
 }
 
-/* Optional: for accessibility (keyboard focus) */
+
 #button:focus {
   outline: 2px solid #7341b1;
   outline-offset: 3px;

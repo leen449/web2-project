@@ -1,6 +1,6 @@
 
 <?php
-// signup_process.php
+
 session_start();
 require 'db.php';
 
@@ -17,8 +17,8 @@ $first  = trim($_POST['firstName'] ?? '');
 $last   = trim($_POST['lastName'] ?? '');
 $email  = trim($_POST['email'] ?? '');
 $pass   = $_POST['password'] ?? '';
-$role   = $_POST['role'] ?? '';           // 'learner' | 'educator'
-$topics = $_POST['topic'] ?? [];          // topicIDs (only for educator)
+$role   = $_POST['role'] ?? '';           // 'learner' or 'educator'
+$topics = $_POST['topic'] ?? [];          // topicIDs for educator only
 
 if ($first === '' || $last === '' || $email === '' || $pass === '' || ($role !== 'learner' && $role !== 'educator')) {
     back_with('error', 'Please fill in all required fields.');
@@ -27,7 +27,7 @@ if ($role === 'educator' && (!is_array($topics) || count($topics) === 0)) {
     back_with('error', 'Please select at least one topic for Educator accounts.');
 }
 
-/* 1) If email exists → back to signup with message */
+//if email exists
 $stmt = $connection->prepare("SELECT id FROM user WHERE emailAddress = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
@@ -38,32 +38,31 @@ if ($stmt->num_rows > 0) {
 }
 $stmt->close();
 
-/* 2) Hash password */
+/* hash password */
 $hash = password_hash($pass, PASSWORD_DEFAULT);
 
-/* 3) Handle photo upload (else default) */
-// 3) Handle photo upload (store ONLY the filename in DB)
-$photo = 'default.jpg';  // ← store filename only
+//handling photo upload (if no photo put default)
+$photo = 'default.jpg';  
 
 if (isset($_FILES['photo']) && is_uploaded_file($_FILES['photo']['tmp_name'])) {
-    // allow only safe extensions
+  
     $ext = strtolower(pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION));
     $allowed = ['jpg','jpeg','png','gif','webp'];
     if (in_array($ext, $allowed, true)) {
-        $filename = uniqid('photo_', true) . '.' . $ext;   // e.g. photo_65f2...jpg
+        $filename = uniqid('photo_', true) . '.' . $ext;  
         $dest = __DIR__ . "/uploads/$filename";
 
         if (!is_dir(__DIR__ . '/uploads')) {
             mkdir(__DIR__ . '/uploads', 0775, true);
         }
         if (move_uploaded_file($_FILES['photo']['tmp_name'], $dest)) {
-            $photo = $filename;  // ← store only the filename
+            $photo = $filename;  
         }
     }
 }
 
 
-/* 4) Insert user (columns: firstName,lastName,emailAddress,password,photoFileName,userType) */
+//inserting user
 $userType = ucfirst($role); // 'Learner' | 'Educator' to match enum
 $ins = $connection->prepare(
     "INSERT INTO user (firstName, lastName, emailAddress, password, photoFileName, userType)
@@ -77,7 +76,7 @@ if (!$ins->execute()) {
 $userId = $ins->insert_id;
 $ins->close();
 
-/* (Optional but requested) 5) If educator, create one quiz row per selected topicID */
+
 if ($role === 'educator' && is_array($topics)) {
     $q = $connection->prepare("INSERT INTO quiz (educatorID, topicID) VALUES (?, ?)");
     foreach ($topics as $topicID) {
@@ -87,10 +86,10 @@ if ($role === 'educator' && is_array($topics)) {
     $q->close();
 }
 
-/* 6) Set session variables (id + type) and redirect by type */
+// setting session variables then redirecting based of type
 session_regenerate_id(true);
 $_SESSION['user_id']   = $userId;
-$_SESSION['user_type'] = $role;                 // 'learner' | 'educator'
+$_SESSION['user_type'] = $role;                 // 'learner' or 'educator'
 $_SESSION['user_name'] = $first . ' ' . $last;
 
 if ($role === 'learner') {
