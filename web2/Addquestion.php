@@ -1,5 +1,4 @@
 <?php
-require_once 'reqLog.php';
 // ===== 1. Connect to database =====
 $servername = "localhost";
 $username = "root";
@@ -10,6 +9,7 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
+require_once 'reqLog.php';
 
 // ===== 2. Get quiz ID from URL =====
 if (!isset($_GET['quizID'])) {
@@ -198,7 +198,7 @@ footer p {
     <header>
         <nav>
           <ul>
-            <li><a href="Educators homepage.php"><img src="images/mindly.png" alt="Mindly Logo" /></a></li>
+            <li><a href="Educators_homepage.php"><img src="images/mindly.png" alt="Mindly Logo" /></a></li>
           </ul>
         </nav>
     </header>

@@ -92,7 +92,7 @@ if (isset($_GET['quizID'])) {
   <header>
     <nav>
       <ul>
-        <li><img src="mindly.png" alt="Mindly Logo"></li>
+       <a href="Educators_homepage.php"> <li><img src="images/mindly.png" alt="Mindly Logo"></li></a>
       </ul>
     </nav>
   </header>
