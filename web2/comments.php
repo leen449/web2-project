@@ -119,7 +119,7 @@ if (isset($_GET['quizID'])) {
     }
     ?>
 
-    <a href="educators_homepage.php" class="back-link">← Back to Homepage</a>
+    <a href="Educators_homepage.php" class="back-link">← Back to Homepage</a>
   </div>
 
   <!-- Footer -->
