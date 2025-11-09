@@ -1,6 +1,7 @@
 <?php
+require_once 'reqLog.php';
 // ===== 1. Include the database connection =====
-include 'db.php';
+require 'db.php';
 
 // ===== 2. Validate quiz_id and question_id =====
 if (!isset($_GET['quiz_id']) || !isset($_GET['question_id'])) {
