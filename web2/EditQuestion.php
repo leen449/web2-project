@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once 'reqLog.php';
 require 'db.php';
 
@@ -54,7 +58,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   WHERE id = $question_id AND quizID = $quiz_id";
 
     if (mysqli_query($connection, $updateSql)) {
-        header("Location: quiz_page.php?quizID=$quiz_id&success=edited");
+         echo "<script>
+    alert('Question Edited successfully!');
+    window.location.href='quiz_page.php?quizID=$quiz_id';
+  </script>";
         exit;
     } else {
         echo "Error updating question: " . mysqli_error($connection);
@@ -174,7 +181,7 @@ footer p { margin: 0; font-size: 16px; color: #0f1214; }
       <option value="D" <?php if($question['correctAnswer']=='D') echo 'selected'; ?>>D</option>
     </select>
 
-    <button type="submit" class="button">Save</button>
+    <button style="margin-top: 1rem" type="submit" class="button">Save</button>
   </form>
 </div>
 
