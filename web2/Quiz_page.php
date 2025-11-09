@@ -59,11 +59,6 @@ $stmt->bind_param("i", $quizID);
 $stmt->execute();
 $result_questions = $stmt->get_result();
 
-if (isset($_GET['success'])) {
-    if ($_GET['success'] === 'deleted') echo "<script>alert('Question deleted successfully!');</script>";
-    elseif ($_GET['success'] === 'added') echo "<script>alert('Question added successfully!');</script>";
-    elseif ($_GET['success'] === 'edited') echo "<script>alert('Question updated successfully!');</script>";
-}
 
 ?>
 
@@ -78,7 +73,12 @@ if (isset($_GET['success'])) {
 </head>
 <body onload="document.body.style.opacity='1'">
 
-
+ <?php if (isset($_GET['success']) && $_GET['success'] === 'deleted') {
+    echo "<script>
+        alert('Question deleted successfully!');
+    </script>";
+}?>
+    
   <header>
     <nav>
       <ul>

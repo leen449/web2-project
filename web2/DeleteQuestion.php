@@ -78,6 +78,6 @@ if (!empty($question['questionFigureFileName'])) {
 // ------------------------------------------
 // 7. REDIRECT BACK TO QUIZ PAGE
 // ------------------------------------------
-header("Location: Educators_homepage.php?quizID=$quizID&success=deleted");
+header("Location: Quiz_page.php?quizID=$quizID&success=deleted");
 exit();
 ?>
