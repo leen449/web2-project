@@ -24,25 +24,7 @@ if (strtolower($_SESSION['user_type']) !== 'learner') {
 
 $learner_id = $_SESSION['user_id'];
 
-// ------------------------------------------
-// 3. HANDLE FEEDBACK SUBMISSION (if POST with feedback data)
-// ------------------------------------------
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_feedback'])) {
-    $quizID = $_POST['quizID'] ?? null;
-    $rating = $_POST['rating'] ?? null;
-    $comments = $_POST['comments'] ?? '';
-    
-    if (!empty($quizID) && !empty($rating)) {
-        $stmt = $connection->prepare("INSERT INTO quizfeedback (quizID, rating, comments) VALUES (?, ?, ?)");
-        $stmt->bind_param("iis", $quizID, $rating, $comments);
-        $stmt->execute();
-        $stmt->close();
-        
-        // Redirect to learner's homepage with success message
-        header("Location: Learners_homepage.php?success=feedback_submitted");
-        exit();
-    }
-}
+// Feedback submission is now handled by submit_feedback.php
 
 // ------------------------------------------
 // 4. GET QUIZ ID AND VALIDATE
@@ -198,7 +180,7 @@ if ($scorePercentage >= 90) {
         <div style="margin: 40px auto; max-width: 600px; text-align: left;">
             <h2 style="font-size: 1.5em; margin-bottom: 25px; text-align: center;">Feedback about Quiz:</h2>
             
-            <form method="POST" action="Quiz score and feedback.php" onsubmit="return validateFeedback();">
+            <form method="POST" action="submit_feedback.php" onsubmit="return validateFeedback();">
                 <!-- Hidden inputs -->
                 <input type="hidden" name="quizID" value="<?php echo htmlspecialchars($quizID); ?>">
                 <input type="hidden" name="submit_feedback" value="1">
