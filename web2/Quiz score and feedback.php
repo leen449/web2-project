@@ -3,7 +3,7 @@
 // 1. INITIAL SETUP
 // ------------------------------------------
 session_start();
-include 'db.php';
+require 'db.php';
 
 // ------------------------------------------
 // 2. SESSION AND USER VALIDATION
