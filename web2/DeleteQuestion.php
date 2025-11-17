@@ -76,8 +76,18 @@ if (!empty($question['questionFigureFileName'])) {
 }
 
 // ------------------------------------------
-// 7. REDIRECT BACK TO QUIZ PAGE
+// 7. RETURN RESPONSE
 // ------------------------------------------
+
+// If the request came from an AJAX call, just return "true"
+if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+    strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+    echo 'true';
+    exit();
+}
+
+// Otherwise, keep the old behaviour (non-AJAX fallback)
 header("Location: Quiz_page.php?quizID=$quizID&success=deleted");
 exit();
+
 ?>

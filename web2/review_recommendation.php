@@ -84,9 +84,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt_insert->execute();
     }
 
-    // ---  Redirect back ---
-    header("Location: Educators_homepage.php?success=review_updated");
+// ---  Respond based on request type ---
+
+// If this is an AJAX request, just return "true"
+if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') 
+{
+    echo 'true';
     exit();
+}
+
+// Otherwise, keep the old redirect behaviour (non-AJAX fallback)
+header("Location: Educators_homepage.php?success=review_updated");
+exit();
 
 } else {
     header("Location: Educators_homepage.php?error=invalid_access");

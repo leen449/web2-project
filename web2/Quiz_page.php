@@ -70,6 +70,8 @@ $result_questions = $stmt->get_result();
   <title>Quiz Page</title>
   <link rel="stylesheet" href="Educators homepage.css">
   <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body onload="document.body.style.opacity='1'">
 
@@ -89,7 +91,7 @@ $result_questions = $stmt->get_result();
 
   <main>
     <!-- Quiz Title and Add Button -->
-    <table>
+    <table  class="questions-table" >
       <caption style="text-align: left;">
         <span style="float: left; font-weight: bolder; color: #a654e6; font-size: 2rem;">
           Quiz for <?php echo htmlspecialchars($quiz['topicName']); ?>
@@ -138,11 +140,14 @@ $result_questions = $stmt->get_result();
                  <a href="EditQuestion.php?quiz_id=<?php echo $quizID; ?>&question_id=<?php echo $row['id']; ?>">Edit</a>
               </td>
               <td>
-                <a href="DeleteQuestion.php?questionID=<?php echo htmlspecialchars($row['id']); ?>&quizID=<?php echo htmlspecialchars($quizID); ?>"
-                   onclick="return confirm('Are you sure you want to delete this question?');">
-                   Delete
-                </a>
+               <a href="#"
+                           class="delete-question"
+                           data-question-id="<?php echo htmlspecialchars($row['id']); ?>"
+                           data-quiz-id="<?php echo htmlspecialchars($quizID); ?>">
+                                       Delete
+              </a>
               </td>
+
             </tr>
           <?php endwhile; ?>
         <?php else: ?>
@@ -161,5 +166,41 @@ $result_questions = $stmt->get_result();
       <p>&copy; 2025 Mindly. All rights reserved.</p>
     </footer>
   </div>
+    
+    <script>
+$(document).ready(function () {
+    // Handle click on Delete links via AJAX
+    $('.questions-table').on('click', '.delete-question', function (e) {
+        e.preventDefault();
+
+        const $link      = $(this);
+        const questionID = $link.data('question-id');
+        const quizID     = $link.data('quiz-id');
+        const $row       = $link.closest('tr');
+
+        if (!confirm('Are you sure you want to delete this question?')) {
+            return;
+        }
+
+        $.ajax({
+            url: 'DeleteQuestion.php',
+            type: 'GET', // matches your current PHP that reads $_GET
+            data: { questionID: questionID, quizID: quizID },
+            success: function (response) {
+                if (String(response).trim() === 'true') {
+                    // Remove the row from the HTML table
+                    $row.remove();
+                } else {
+                    alert('Could not delete the question. Server response: ' + response);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert('AJAX error while deleting the question: ' + error);
+            }
+        });
+    });
+});
+</script>
+
 </body>
 </html>

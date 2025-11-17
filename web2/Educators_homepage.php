@@ -94,6 +94,7 @@ $result_recommend = $stmt_recommend->get_result();
   <title>Educator's Homepage</title>
     <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="Educators homepage.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
 
@@ -247,7 +248,7 @@ $result_recommend = $stmt_recommend->get_result();
                             <?php endif; ?>
                         </td>
                         <td>
-                            <form action="review_recommendation.php" method="POST" style="text-align:center;">
+                            <form action="review_recommendation.php" method="POST" class="review-form" style="text-align:center;">
                   <input type="hidden" name="recID" value="<?php echo $rec['recID']; ?>">
 
                   <div style="display: flex; align-items: center; gap: 10px; justify-content: center;">
@@ -312,5 +313,35 @@ $result_recommend = $stmt_recommend->get_result();
         el.addEventListener("animationend", () => { el.style.borderRight = "none"; });
     }
     </script>
+    
+    <script>
+$(document).ready(function () {
+    // Handle review form submission with AJAX
+    $('.recommendation-table').on('submit', '.review-form', function (e) {
+        e.preventDefault();
+
+        const $form = $(this);
+        const $row  = $form.closest('tr');
+
+        $.ajax({
+            url: $form.attr('action'),
+            type: 'POST',
+            data: $form.serialize(),
+            success: function (response) {
+                if (String(response).trim() === 'true') {
+                    // Remove the row from the HTML table
+                    $row.remove();
+                } else {
+                    alert('Could not update the review. Server response: ' + response);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert('AJAX error while updating the review: ' + error);
+            }
+        });
+    });
+});
+</script>
+
 </body>
 </html>
