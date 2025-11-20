@@ -1,73 +1,8 @@
-<?php
-// ===== 1. Connect to database =====
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "mindlydatabase";
-
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-require_once 'reqLog.php';
-
-// Get quiz ID from URL ( req 1 )
-if (!isset($_GET['quizID'])) {
-    die("Quiz ID is missing.");
-}
-$quizID = $_GET['quizID'];
-
-// ===== 3. Handle form submission =====
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $question = mysqli_real_escape_string($conn, $_POST['question']);
-    $answerA = mysqli_real_escape_string($conn, $_POST['answerA']);
-    $answerB = mysqli_real_escape_string($conn, $_POST['answerB']);
-    $answerC = mysqli_real_escape_string($conn, $_POST['answerC']);
-    $answerD = mysqli_real_escape_string($conn, $_POST['answerD']);
-    $correctAnswer = $_POST['correctAnswer'];
-    
-    // Handle optional image upload
-    $imagePath = NULL;
-    if (isset($_FILES['questionImage']) && $_FILES['questionImage']['error'] === UPLOAD_ERR_OK) {
-        $targetDir = "uploads/";
-        if (!is_dir($targetDir)) mkdir($targetDir, 0777, true);
-        $targetFile = $targetDir . basename($_FILES["questionImage"]["name"]);
-        move_uploaded_file($_FILES["questionImage"]["tmp_name"], $targetFile);
-        $imagePath = $targetFile;
-    }
-
-    // Insert question into database ( req 2 )
-    $sql = "INSERT INTO quizquestion 
-            (quizID, question, questionFigureFileName, answerA, answerB, answerC, answerD, correctAnswer)
-            VALUES ('$quizID', '$question', '$imagePath', '$answerA', '$answerB', '$answerC', '$answerD', '$correctAnswer')";
-
-    if (mysqli_query($conn, $sql)) {
-        //Redirect to quiz page
-         echo "<script>
-    alert('Question added successfully!');
-    window.location.href='quiz_page.php?quizID=$quizID';
-  </script>";
-    exit;
-    } else {
-        echo "Error: " . mysqli_error($conn);
-    }
-}
-
-// ===== 4. Fetch existing questions for this quiz =====
-$questions = [];
-$sql = "SELECT * FROM quizquestion WHERE quizID = '$quizID'";
-$result = mysqli_query($conn, $sql);
-if ($result) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $questions[] = $row;
-    }
-}
-?>
-
+<?php include 'process_add_question.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"> 
+  <meta charset="UTF-8">
   <title>Add New Question</title>
   <style>
    body {
@@ -196,84 +131,94 @@ footer p {
   </style>
 </head>
 <body>
-    <header>
-        <nav>
-          <ul>
-            <li><a href="Educators_homepage.php"><img src="images/mindly.png" alt="Mindly Logo" /></a></li>
-          </ul>
-        </nav>
-    </header>
+<header>
+    <nav>
+      <ul>
+        <li><a href="Educators_homepage.php"><img src="images/mindly.png" alt="Mindly Logo" /></a></li>
+      </ul>
+    </nav>
+</header>
 
-  <br/><br/>
+<br/><br/>
 
-  <div class="container">
-    <h2>Add New Question</h2>
-    <!-- sends data to php ( req 2 ) -->
-    <form method="POST" enctype="multipart/form-data">
-        <!-- req 2 -->
-      <input type="hidden" name="quizID" value="<?php echo $quizID; ?>">
-      <div class="form-group">
-        <label>Question:</label>
-        <textarea name="question" rows="4" required></textarea>
-      </div>
-      <div class="form-group">
-        <label>Upload Question Figure:</label>
-        <input type="file" name="questionImage" accept="image/*">
-      </div>
-      <div class="form-group">
-        <label>Answer A:</label>
-        <input type="text" name="answerA" required>
-      </div>
-      <div class="form-group">
-        <label>Answer B:</label>
-        <input type="text" name="answerB" required>
-      </div>
-      <div class="form-group">
-        <label>Answer C:</label>
-        <input type="text" name="answerC" required>
-      </div>
-      <div class="form-group">
-        <label>Answer D:</label>
-        <input type="text" name="answerD" required>
-      </div>
-      <div class="form-group">
-        <label>Correct Answer:</label>
-        <select name="correctAnswer" required>
-          <option value="A">A</option>
-          <option value="B">B</option>
-          <option value="C">C</option>
-          <option value="D">D</option>
-        </select>
-      </div>
-      <button type="submit">Add</button>
-    </form>
-  </div>
+<div class="container">
+  <h2>Add New Question</h2>
 
-  <div class="container question-list">
-    <h3>Existing Questions</h3>
-    <?php if (count($questions) > 0): ?>
-        <?php foreach ($questions as $q): ?>
-            <div class="question-item">
-                <p><strong>Q:</strong> <?php echo htmlspecialchars($q['question']); ?></p>
-                <?php if (!empty($q['questionFigureFileName'])): ?>
-                    <img src="<?php echo htmlspecialchars($q['questionFigureFileName']); ?>" alt="Question Image">
-                <?php endif; ?>
-                <p><strong>A:</strong> <?php echo htmlspecialchars($q['answerA']); ?></p>
-                <p><strong>B:</strong> <?php echo htmlspecialchars($q['answerB']); ?></p>
-                <p><strong>C:</strong> <?php echo htmlspecialchars($q['answerC']); ?></p>
-                <p><strong>D:</strong> <?php echo htmlspecialchars($q['answerD']); ?></p>
-                <p><strong>Correct Answer:</strong> <?php echo $q['correctAnswer']; ?></p>
-            </div>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <p>No questions added yet.</p>
-    <?php endif; ?>
-  </div>
+  <form method="POST" action="process_add_question.php?quizID=<?php echo $quizID; ?>" enctype="multipart/form-data">
 
-  <br/><br/>
+    <div class="form-group">
+      <label>Question:</label>
+      <textarea name="question" rows="4" required></textarea>
+    </div>
 
-  <footer>
-    <p>&copy; 2025 Mindly. All rights reserved.</p>
-  </footer>
+    <div class="form-group">
+      <label>Upload Question Figure:</label>
+      <input type="file" name="questionImage" accept="image/*">
+    </div>
+
+    <div class="form-group">
+      <label>Answer A:</label>
+      <input type="text" name="answerA" required>
+    </div>
+
+    <div class="form-group">
+      <label>Answer B:</label>
+      <input type="text" name="answerB" required>
+    </div>
+
+    <div class="form-group">
+      <label>Answer C:</label>
+      <input type="text" name="answerC" required>
+    </div>
+
+    <div class="form-group">
+      <label>Answer D:</label>
+      <input type="text" name="answerD" required>
+    </div>
+
+    <div class="form-group">
+      <label>Correct Answer:</label>
+      <select name="correctAnswer" required>
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+      </select>
+    </div>
+
+    <button type="submit">Add</button>
+  </form>
+</div>
+
+<div class="container question-list">
+  <h3>Existing Questions</h3>
+
+  <?php if (count($questions) > 0): ?>
+    <?php foreach ($questions as $q): ?>
+      <div class="question-item">
+        <p><strong>Q:</strong> <?php echo htmlspecialchars($q['question']); ?></p>
+
+        <?php if (!empty($q['questionFigureFileName'])): ?>
+          <img src="<?php echo htmlspecialchars($q['questionFigureFileName']); ?>" alt="Question Image">
+        <?php endif; ?>
+
+        <p><strong>A:</strong> <?php echo htmlspecialchars($q['answerA']); ?></p>
+        <p><strong>B:</strong> <?php echo htmlspecialchars($q['answerB']); ?></p>
+        <p><strong>C:</strong> <?php echo htmlspecialchars($q['answerC']); ?></p>
+        <p><strong>D:</strong> <?php echo htmlspecialchars($q['answerD']); ?></p>
+        <p><strong>Correct Answer:</strong> <?php echo $q['correctAnswer']; ?></p>
+      </div>
+    <?php endforeach; ?>
+  <?php else: ?>
+    <p>No questions added yet.</p>
+  <?php endif; ?>
+</div>
+
+<br/><br/>
+
+<footer>
+  <p>&copy; 2025 Mindly. All rights reserved.</p>
+</footer>
+
 </body>
 </html>
