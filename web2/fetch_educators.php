@@ -32,7 +32,8 @@ $educators = [];
 while ($row = $result->fetch_assoc()) {
     $educators[] = [
         'id' => (int)$row['id'],
-        'name' => $row['firstName'] . ' ' . $row['lastName']
+        'firstName' => $row['firstName'],
+        'lastName' => $row['lastName']
     ];
 }
 
@@ -41,3 +42,4 @@ $stmt->close();
 header('Content-Type: application/json');
 echo json_encode($educators);
 exit;
+?>
