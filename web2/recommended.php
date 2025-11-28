@@ -18,6 +18,16 @@ if ($res = $connection->query("SELECT id, topicName FROM topic ORDER BY topicNam
     }
     $res->free();
 }
+
+// ---- Fetch all educators (initial load, optional) ----
+$educators = [];
+$stmtEdu = $connection->prepare("SELECT id, firstName, lastName FROM user WHERE userType = 'Educator' ORDER BY firstName ASC");
+$stmtEdu->execute();
+$resEdu = $stmtEdu->get_result();
+while ($row = $resEdu->fetch_assoc()) {
+    $educators[] = $row;
+}
+$stmtEdu->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,7 +76,6 @@ if ($res = $connection->query("SELECT id, topicName FROM topic ORDER BY topicNam
   <div class="question-frame">
     <h3 class="frame-title">Recommend a Question</h3>
 
-    <!-- note: action points to submit_recommended.php to handle processing -->
     <form id="recommendForm" method="POST" enctype="multipart/form-data" action="submit_recommended.php">
       <div class="grid">
         <!-- Topic -->
@@ -80,10 +89,15 @@ if ($res = $connection->query("SELECT id, topicName FROM topic ORDER BY topicNam
           <?php endforeach; ?>
         </select>
 
-        <!-- Educator (AJAX-filled) -->
+        <!-- Educator -->
         <label for="educator">Educator:</label>
         <select id="educator" name="educator" required>
           <option value="">Select Educator</option>
+          <?php foreach ($educators as $edu): ?>
+            <option value="<?php echo (int)$edu['id']; ?>">
+              <?php echo htmlspecialchars($edu['firstName'] . ' ' . $edu['lastName']); ?>
+            </option>
+          <?php endforeach; ?>
         </select>
 
         <!-- Question -->
@@ -133,32 +147,40 @@ if ($res = $connection->query("SELECT id, topicName FROM topic ORDER BY topicNam
   </footer>
 
   <script>
+    // Fade in
     window.addEventListener("load", function() {
       document.body.classList.add("loaded");
     });
-
     function goBack() { window.location.href = "Learners_homepage.php"; }
 
-    // ----- AJAX: update educators based on topic -----
-    document.getElementById('topic').addEventListener('change', function() {
+    // AJAX to reload educators when topic changes
+    document.getElementById("topic").addEventListener("change", function() {
         const topicID = this.value;
-        const educatorSelect = document.getElementById('educator');
-        educatorSelect.innerHTML = '<option value="">Loading...</option>';
+        const select = document.getElementById("educator");
+        select.innerHTML = '<option value="">Loading...</option>';
 
-        fetch('fetch_educators.php?topicID=' + topicID)
-            .then(response => response.json())
+        if (!topicID) {
+            select.innerHTML = '<option value="">Select Educator</option>';
+            return;
+        }
+
+        fetch("fetch_educators.php?topicID=" + topicID)
+            .then(res => {
+                if (!res.ok) throw new Error("Failed to fetch educators");
+                return res.json();
+            })
             .then(data => {
-                educatorSelect.innerHTML = '<option value="">Select Educator</option>';
+                select.innerHTML = '<option value="">Select Educator</option>';
                 data.forEach(edu => {
-                    const opt = document.createElement('option');
+                    const opt = document.createElement("option");
                     opt.value = edu.id;
-                    opt.textContent = edu.name; // using "name" from FetchEducators.php JSON
-                    educatorSelect.appendChild(opt);
+                    opt.textContent = edu.firstName + " " + edu.lastName;
+                    select.appendChild(opt);
                 });
             })
             .catch(err => {
-                educatorSelect.innerHTML = '<option value="">Error loading educators</option>';
-                console.error(err);
+                alert("Error reloading educators: " + err.message);
+                select.innerHTML = '<option value="">Select Educator</option>';
             });
     });
   </script>
