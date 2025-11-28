@@ -145,7 +145,7 @@ if ($res = $connection->query("SELECT id, topicName FROM topic ORDER BY topicNam
         const educatorSelect = document.getElementById('educator');
         educatorSelect.innerHTML = '<option value="">Loading...</option>';
 
-        fetch('FetchEducators.php?topicID=' + topicID)
+        fetch('fetch_educators.php?topicID=' + topicID)
             .then(response => response.json())
             .then(data => {
                 educatorSelect.innerHTML = '<option value="">Select Educator</option>';
