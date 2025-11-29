@@ -126,7 +126,7 @@ font-style: italic;
     <header>
         <nav>
           <ul>
-            <li><a href="index.php"><img src="images/mindly.png" alt="Mindly Logo" /></a></li>
+            <li><a href="https://mindly.infinityfreeapp.com/web2_project_/web2/index.php"><img src="images/mindly.png" alt="Mindly Logo" /></a></li>
 
           </ul>
         </nav>
