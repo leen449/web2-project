@@ -1,4 +1,7 @@
-<?php include 'process_add_question.php'; ?>
+<?php
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    include 'process_add_question.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
