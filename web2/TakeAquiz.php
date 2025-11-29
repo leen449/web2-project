@@ -1,16 +1,12 @@
 <?php
+    ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 require_once 'reqLog.php';
 
 
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "mindlydatabase"; 
+require 'db.php';
 
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
 
 //  Check quizID from URL ( req 1 )
 if (!isset($_GET['quizID'])) {
@@ -20,22 +16,25 @@ $quizID = intval($_GET['quizID']);
 
 // Retrieve quiz info( req 2 )
 $quizQuery = "
-  SELECT Quiz.id AS quizID, Topic.topicName, 
-         CONCAT(User.firstName, ' ', User.lastName) AS educatorName
-  FROM Quiz
-  JOIN Topic ON Quiz.topicID = Topic.id
-  JOIN User ON Quiz.educatorID = User.id
-  WHERE Quiz.id = $quizID
+    SELECT q.id AS quizID,
+           t.topicName,
+           CONCAT(u.firstName, ' ', u.lastName) AS educatorName
+    FROM quiz q
+    JOIN topic t ON q.topicID = t.id
+    JOIN user u  ON q.educatorID = u.id
+    WHERE q.id = $quizID
 ";
-$quizResult = mysqli_query($conn, $quizQuery);
+$quizResult = mysqli_query($connection, $quizQuery);
 if (mysqli_num_rows($quizResult) == 0) {
-    die("Error: Quiz not found.");
+    die('Error: Quiz not found.');
 }
 $quiz = mysqli_fetch_assoc($quizResult);
 
+
 // Retrieve questions ( req 3 )
-$questionQuery = "SELECT * FROM QuizQuestion WHERE quizID = $quizID";
-$questionResult = mysqli_query($conn, $questionQuery);
+$questionQuery  = "SELECT * FROM quizquestion WHERE quizID = $quizID";
+$questionResult = mysqli_query($connection, $questionQuery);
+
 if (mysqli_num_rows($questionResult) == 0) {
     die("Error: No questions found for this quiz.");
 }
