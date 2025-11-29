@@ -30,35 +30,23 @@ if (empty($quizID) || empty($rating) || $rating < 1 || $rating > 5) {
 }
 
 try {
-    // Check if feedback already exists for this quiz from this user
-    $stmt = $connection->prepare("SELECT id FROM quizfeedback WHERE quizID = ?");
-    $stmt->bind_param("i", $quizID);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if ($result->num_rows > 0) {
-        // Update existing feedback
-        $stmt = $connection->prepare("UPDATE quizfeedback SET rating = ?, comments = ? WHERE quizID = ?");
-        $stmt->bind_param("isi", $rating, $comments, $quizID);
-    } else {
-        // Insert new feedback
-        $stmt = $connection->prepare("INSERT INTO quizfeedback (quizID, rating, comments) VALUES (?, ?, ?)");
-        $stmt->bind_param("iis", $quizID, $rating, $comments);
-    }
-    
+    // Always insert new feedback (allow multiple comments per quiz)
+    $stmt = $connection->prepare("
+        INSERT INTO quizfeedback (quizID, rating, comments, date)
+        VALUES (?, ?, ?, NOW())
+    ");
+    $stmt->bind_param("iis", $quizID, $rating, $comments);
+
     $stmt->execute();
     $stmt->close();
-    
-    // Redirect with success message
+
     header("Location: Learners_homepage.php?success=feedback_submitted");
     exit();
-    
+
 } catch (Exception $e) {
-    // Log error 
     error_log("Error submitting feedback: " . $e->getMessage());
-    
-    // Redirect with error message
     header("Location: Quiz score and feedback.php?error=submission_failed&quizID=" . $quizID);
     exit();
 }
+
 ?>
