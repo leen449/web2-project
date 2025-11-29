@@ -1,14 +1,7 @@
 <?php
 // ===== 1. Connect to database =====
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "mindlydatabase";
+require 'db.php';
 
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
 
 require_once 'reqLog.php';
 
@@ -20,11 +13,11 @@ $quizID = $_GET['quizID'];
 
 // ===== Handle form submission =====
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $question = mysqli_real_escape_string($conn, $_POST['question']);
-    $answerA = mysqli_real_escape_string($conn, $_POST['answerA']);
-    $answerB = mysqli_real_escape_string($conn, $_POST['answerB']);
-    $answerC = mysqli_real_escape_string($conn, $_POST['answerC']);
-    $answerD = mysqli_real_escape_string($conn, $_POST['answerD']);
+    $question = mysqli_real_escape_string($connection, $_POST['question']);
+    $answerA = mysqli_real_escape_string($connection, $_POST['answerA']);
+    $answerB = mysqli_real_escape_string($connection, $_POST['answerB']);
+    $answerC = mysqli_real_escape_string($connection, $_POST['answerC']);
+    $answerD = mysqli_real_escape_string($connection, $_POST['answerD']);
     $correctAnswer = $_POST['correctAnswer'];
 
     // Image upload
@@ -42,21 +35,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             (quizID, question, questionFigureFileName, answerA, answerB, answerC, answerD, correctAnswer)
             VALUES ('$quizID', '$question', '$imagePath', '$answerA', '$answerB', '$answerC', '$answerD', '$correctAnswer')";
 
-    if (mysqli_query($conn, $sql)) {
+    if (mysqli_query($connection, $sql)) {
         echo "<script>
                 alert('Question added successfully!');
                 window.location.href='Quiz_page.php?quizID=$quizID';
               </script>";
         exit;
     } else {
-        echo "Error: " . mysqli_error($conn);
+        echo "Error: " . mysqli_error($connection);
     }
 }
 
 // ===== Fetch existing questions =====
 $questions = [];
 $sql = "SELECT * FROM quizquestion WHERE quizID = '$quizID'";
-$result = mysqli_query($conn, $sql);
+$result = mysqli_query($connection, $sql);
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
         $questions[] = $row;
