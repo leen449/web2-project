@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (mysqli_query($connection, $updateSql)) {
         echo "<script>
                 alert('Question Edited successfully!');
-                window.location.href='quiz_page.php?quizID=$quiz_id';
+                window.location.href='Quiz_page.php?quizID=$quiz_id';
               </script>";
         exit;
     } else {
